@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Collection Form</title>
+</head>
+<body>
+    <h2>Data Collection Form</h2>
+    <form id="dataForm">
+        <input type="hidden" id="editId"> 
+        
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="mobile">Mobile:</label>
+        <input type="tel" id="mobile" name="mobile" required><br><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <label for="work">Work:</label>
+        <input type="text" id="work" name="work" required><br><br>
+        
+        <label for="assign">Assign:</label>
+        <input type="text" id="assign" name="assign" required><br><br>
+        
+        <label for="status">Status:</label>
+        <input type="text" id="status" name="status" required><br><br>
+        
+        <label for="remark">Remark:</label>
+        <input type="text" id="remark" name="remark" required><br><br>
+        
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <label for="charges">Charges:</label>
+        <input type="number" id="charges" name="charges" required><br><br> <!-- New Charges Field -->
+        
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+    
+    <h2>Submitted Data</h2>
+    <table border="1" id="dataTable">
+        <tr>
+            <th>ID</th>
+            <th>Timestamp</th>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Work</th>
+            <th>Assign</th>
+            <th>Status</th>
+            <th>Remark</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Charges</th> <!-- New Charges Column -->
+            <th>Actions</th>
+            <th>Folder</th>
+        </tr>
+    </table>
+    
+    <script>
+        let editMode = false;
+        let editId = null;
+
+        function submitForm() {
+            const formData = {
+                id: editMode ? editId : null,
+                name: document.getElementById("name").value,
+                mobile: document.getElementById("mobile").value,
+                email: document.getElementById("email").value,
+                work: document.getElementById("work").value,
+                assign: document.getElementById("assign").value,
+                status: document.getElementById("status").value,
+                remark: document.getElementById("remark").value,
+                username: document.getElementById("username").value,
+                password: document.getElementById("password").value,
+                charges: document.getElementById("charges").value // New Charges Field
+            };
+
+            fetch('https://script.google.com/macros/s/AKfycbwsjL_LrfN0t-YZTHdKhyceE_IPsZU_Dk2IN1zB_c-D8bMCZnxTI-E9i8L-7B0ZevSFZQ/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            }).then(() => {
+                alert(editMode ? "Data updated successfully!" : "Data submitted successfully!");
+                document.getElementById("dataForm").reset();
+                editMode = false;
+                editId = null;
+                fetchData();
+            }).catch(error => console.error("Error:", error));
+        }
+
+        function fetchData() {
+            fetch('https://script.google.com/macros/s/AKfycbwsjL_LrfN0t-YZTHdKhyceE_IPsZU_Dk2IN1zB_c-D8bMCZnxTI-E9i8L-7B0ZevSFZQ/exec')
+                .then(response => response.json())
+                .then(data => {
+                    const table = document.getElementById("dataTable");
+                    table.innerHTML = `
+                        <tr>
+                            <th>ID</th>
+                            <th>Timestamp</th>
+                            <th>Name</th>
+                            <th>Mobile</th>
+                            <th>Email</th>
+                            <th>Work</th>
+                            <th>Assign</th>
+                            <th>Status</th>
+                            <th>Remark</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Charges</th> <!-- New Charges Column -->
+                            <th>Actions</th>
+                            <th>Folder</th>
+                        </tr>
+                    `;
+                    data.forEach((row) => {
+                        const newRow = table.insertRow();
+                        newRow.insertCell(0).innerText = row.id;
+                        newRow.insertCell(1).innerText = row.timestamp;
+                        newRow.insertCell(2).innerText = row.name;
+                        newRow.insertCell(3).innerText = row.mobile;
+                        newRow.insertCell(4).innerText = row.email;
+                        newRow.insertCell(5).innerText = row.work;
+                        newRow.insertCell(6).innerText = row.assign;
+                        newRow.insertCell(7).innerText = row.status;
+                        newRow.insertCell(8).innerText = row.remark;
+                        newRow.insertCell(9).innerText = row.username;
+                        newRow.insertCell(10).innerText = row.password;
+                        newRow.insertCell(11).innerText = row.charges; // New Charges Column
+                        const actionCell = newRow.insertCell(12);
+
+                        // Edit Button
+                        const editButton = document.createElement("button");
+                        editButton.innerText = "Edit";
+                        editButton.onclick = function() { editRow(row); };
+                        actionCell.appendChild(editButton);
+
+                        // Delete Button
+                        const deleteButton = document.createElement("button");
+                        deleteButton.innerText = "Delete";
+                        deleteButton.onclick = function() { deleteRow(row.id); };
+                        actionCell.appendChild(deleteButton);
+
+                        // Open Folder Button
+                        const folderCell = newRow.insertCell(13);
+                        if (row.folderId) {
+                            const openFolderButton = document.createElement("button");
+                            openFolderButton.innerText = "Open Folder";
+                            openFolderButton.onclick = function() { openFolder(row.folderId); };
+                            folderCell.appendChild(openFolderButton);
+                        } else {
+                            folderCell.innerText = "No Folder";
+                        }
+                    });
+                })
+                .catch(error => console.error("Error fetching data:", error));
+        }
+
+        function editRow(row) {
+            document.getElementById("editId").value = row.id;
+            document.getElementById("name").value = row.name;
+            document.getElementById("mobile").value = row.mobile;
+            document.getElementById("email").value = row.email;
+            document.getElementById("work").value = row.work;
+            document.getElementById("assign").value = row.assign;
+            document.getElementById("status").value = row.status;
+            document.getElementById("remark").value = row.remark;
+            document.getElementById("username").value = row.username;
+            document.getElementById("password").value = row.password;
+            document.getElementById("charges").value = row.charges; // New Charges Field
+            editMode = true;
+            editId = row.id;
+        }
+
+        function deleteRow(id) {
+            if (confirm("Are you sure you want to delete this record?")) {
+                fetch('https://script.google.com/macros/s/AKfycbwsjL_LrfN0t-YZTHdKhyceE_IPsZU_Dk2IN1zB_c-D8bMCZnxTI-E9i8L-7B0ZevSFZQ/exec', {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: id, action: 'delete' })
+                }).then(() => {
+                    alert("Record deleted successfully!");
+                    fetchData();
+                }).catch(error => console.error("Error:", error));
+            }
+        }
+
+        function openFolder(folderId) {
+            const folderUrl = `https://drive.google.com/drive/folders/${folderId}`;
+            window.open(folderUrl, "_blank");
+        }
+
+        window.onload = fetchData;
+    </script>
+</body>
+</html>
