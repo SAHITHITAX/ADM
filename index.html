@@ -216,7 +216,7 @@
             <a href="#" class="apple-button" onclick="filterData('ITR REMINDER'); return false;">ITR REMINDER</a>
             <a href="#" class="apple-button" onclick="filterData('GST RETURN'); return false;">GST RETURN</a>
             <a href="#" class="apple-button" onclick="filterData('TEST'); return false;">TEST</a>
-            <a href="#" class="apple-button" onclick="filterData('TEST'); return false;">TEST</a>
+            
         </div></br>
         <input type="hidden" id="editId">
         <label for="name">Name:</label>
@@ -455,18 +455,7 @@ function sendWhatsAppMessage(row) {
     const whatsappUrl = `https://wa.me/${internationalMobile}?text=${encodedMessage}`;
     window.open(whatsappUrl, "_blank");
 }
-    // Debugging: Log the final message
-    console.log("Message:", message);
-
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${internationalMobile}?text=${encodedMessage}`;
-    window.open(whatsappUrl, "_blank");
-}
-
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${internationalMobile}?text=${encodedMessage}`;
-    window.open(whatsappUrl, "_blank");
-}
+   
 
         function sendAssigneeWhatsAppMessage(row) {
             const assigneeName = row.assign; // Get the assignee name from the row
