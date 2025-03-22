@@ -431,8 +431,7 @@
             const folderUrl = `https://drive.google.com/drive/folders/${folderId}`;
             window.open(folderUrl, "_blank");
         }
-
-  function sendWhatsAppMessage(row) {
+function sendWhatsAppMessage(row) {
     const mobile = row.mobile.replace(/\D/g, ''); // Remove all non-numeric characters
     let internationalMobile;
     if (mobile.startsWith('+')) {
@@ -445,19 +444,17 @@
         internationalMobile = mobile;
     }
 
-    // Debugging: Log the value of row.work
-    console.log("Work Type:", row.work);
-
-    // Trim and convert to uppercase for comparison
-    const workType = row.work.trim().toUpperCase();
-
     let message;
-    if (workType === "DOCS") {
+    if (row.work.toUpperCase() === "DOCS") {
         message = `Hello ${row.name}, your work on ${row.work} is currently ${row.status}. Due date: ${row.dueDate}. Please send me the documents.`;
     } else {
-        message = `Hello ${row.name}, your work on ${row.work} is currently ${row.status}.`;
+        message = `Hello ${row.name}, your work on ${row.work} is currently ${row.status}. Due date: ${row.dueDate}.`;
     }
 
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${internationalMobile}?text=${encodedMessage}`;
+    window.open(whatsappUrl, "_blank");
+}
     // Debugging: Log the final message
     console.log("Message:", message);
 
