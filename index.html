@@ -191,19 +191,19 @@
             <p>We provide expert tax consulting services.</p>
         </div>
         <div class="button-container">
-            <a href="https://sahithitax.github.io/URGENT/" class="apple-button">URGENT</a>
-            <a href="https://sahithitax.github.io/PENDING/" class="apple-button">PENDING</a>
-            <a href="https://sahithitax.github.io/REMIND/" class="apple-button">REMIND</a>
-            <a href="https://sahithitax.github.io/DOCS/" class="apple-button">DOCS</a>
-            <a href="https://sahithitax.github.io/NEW/" class="apple-button">NEW</a>
-            <a href="https://sahithitax.github.io/CALL/" class="apple-button">CALL</a>
-            <a href="https://sahithitax.github.io/BAL/" class="apple-button">BAL</a>
-            <a href="https://sahithitax.github.io/RATING/" class="apple-button">RATING</a>
-            <a href="https://sahithitax.github.io/TOBE/" class="apple-button">TO BE</a>
-            <a href="https://sahithitax.github.io/LBR/" class="apple-button">LABOUR REMINDER</a>
-            <a href="https://sahithitax.github.io/ITR/" class="apple-button">ITR REMINDER</a>
-            <a href="https://sahithitax.github.io/GSTRTRN/" class="apple-button">GST RETURN</a>
-            <a href="https://sahithitax.github.io/TEST/" class="apple-button">TEST</a>
+            <a href="#" class="apple-button" onclick="filterData('URGENT'); return false;">URGENT</a>
+            <a href="#" class="apple-button" onclick="filterData('PENDING'); return false;">PENDING</a>
+            <a href="#" class="apple-button" onclick="filterData('REMIND'); return false;">REMIND</a>
+            <a href="#" class="apple-button" onclick="filterData('DOCS'); return false;">DOCS</a>
+            <a href="#" class="apple-button" onclick="filterData('NEW'); return false;">NEW</a>
+            <a href="#" class="apple-button" onclick="filterData('CALL'); return false;">CALL</a>
+            <a href="#" class="apple-button" onclick="filterData('BAL'); return false;">BAL</a>
+            <a href="#" class="apple-button" onclick="filterData('RATING'); return false;">RATING</a>
+            <a href="#" class="apple-button" onclick="filterData('TO BE'); return false;">TO BE</a>
+            <a href="#" class="apple-button" onclick="filterData('LABOUR REMINDER'); return false;">LABOUR REMINDER</a>
+            <a href="#" class="apple-button" onclick="filterData('ITR REMINDER'); return false;">ITR REMINDER</a>
+            <a href="#" class="apple-button" onclick="filterData('GST RETURN'); return false;">GST RETURN</a>
+            <a href="#" class="apple-button" onclick="filterData('TEST'); return false;">TEST</a>
         </div>
         <input type="hidden" id="editId">
         <label for="name">Name:</label>
@@ -255,6 +255,12 @@
     <script>
         let editMode = false;
         let editId = null;
+        let currentFilter = null; // Track the current filter
+
+        function filterData(status) {
+            currentFilter = status; // Set the current filter
+            fetchData(); // Fetch and display filtered data
+        }
 
         function submitForm() {
             const formData = {
@@ -292,6 +298,11 @@
             fetch('https://script.google.com/macros/s/AKfycbzN788DR1TtAarYEzjD283sLr9Lh74t2885GxVE7ZcDC6aFnbihEnkPRrQLBxoLGEy6Dg/exec')
                 .then(response => response.json())
                 .then(data => {
+                    // Apply the filter if one is set
+                    if (currentFilter) {
+                        data = data.filter(row => row.status === currentFilter);
+                    }
+
                     const table = document.getElementById("dataTable");
                     table.innerHTML = `
                         <tr>
@@ -404,41 +415,22 @@
             window.open(folderUrl, "_blank");
         }
 
-
         function sendWhatsAppMessage(row) {
-            console.log("sendWhatsAppMessage called with row:", row); // Debugging
-
-            // Ensure the mobile number is in international format
             const mobile = row.mobile.replace(/\D/g, ''); // Remove all non-numeric characters
-            console.log("Cleaned mobile number:", mobile); // Debugging
-
-            // Check if the number already starts with a country code
             let internationalMobile;
             if (mobile.startsWith('+')) {
-                // If it already starts with '+', use it as-is
                 internationalMobile = mobile;
             } else if (mobile.startsWith('91') && mobile.length === 12) {
-                // If it starts with '91' and is 12 digits long, add a '+' to make it international
                 internationalMobile = `+${mobile}`;
             } else if (mobile.length === 10) {
-                // If it's a 10-digit number, assume it's an Indian number and add '+91'
                 internationalMobile = `+91${mobile}`;
             } else {
-                // If it doesn't match any of the above, use it as-is (may not work for WhatsApp)
                 internationalMobile = mobile;
             }
 
-            console.log("Formatted international mobile number:", internationalMobile); // Debugging
-
-            // Construct the message
             const message = `Hello ${row.name}, your work on ${row.work} is currently ${row.status}. Due date: ${row.dueDate}.`;
             const encodedMessage = encodeURIComponent(message);
-
-            // Generate the WhatsApp URL
             const whatsappUrl = `https://wa.me/${internationalMobile}?text=${encodedMessage}`;
-            console.log("Generated WhatsApp URL:", whatsappUrl); // Debugging
-
-            // Open the WhatsApp link
             window.open(whatsappUrl, "_blank");
         }
 
