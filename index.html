@@ -46,7 +46,7 @@
 
         /* Add margin to the table to avoid overlapping with the fixed form */
         #dataTable {
-            margin-top: 170px; /* Adjust this value based on the height of your form */
+            margin-top: 205px; /* Adjust this value based on the height of your form */
         }
 
         /* Style for the table */
@@ -55,15 +55,16 @@
             border-collapse: collapse;
         }
 
-        #dataTable th, #dataTable td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
 
-        #dataTable th {
-            background-color: #f2f2f2;
-        }
+
+  #dataTable th,
+#dataTable td {
+    max-width: 50px; /* Set maximum width for cells */
+    width: 80px; /* Set fixed width for cells */
+    white-space: wrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow content */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+}
 
         #dataTable tr:nth-child(even) {
             background-color: #f9f9f9;
@@ -94,6 +95,10 @@
 
         #dataTable button.whatsapp {
             background-color: #25d366;
+            color: white;
+        }
+        #dataTable button.whatsapp-assignee {
+            background-color: #34b7f1;
             color: white;
         }
 
@@ -193,7 +198,7 @@
         <div class="button-container">
             <a href="#" class="apple-button" onclick="filterData('URGENT'); return false;">URGENT</a>
             <a href="#" class="apple-button" onclick="filterData('PENDING'); return false;">PENDING</a>
-            <a href="#" class="apple-button" onclick="filterData('RATING'); return false;">RATING</a>
+            <a href="#" class="apple-button" onclick="filterData('REMIND'); return false;">REMIND</a>
             <a href="#" class="apple-button" onclick="filterData('DOCS'); return false;">DOCS</a>
             <a href="#" class="apple-button" onclick="filterData('NEW'); return false;">NEW</a>
             <a href="#" class="apple-button" onclick="filterData('CALL'); return false;">CALL</a>
@@ -235,7 +240,7 @@
     <table border="1" id="dataTable">
         <tr>
             <th>ID</th>
-            <th>Name</th>
+            <th style="max-width: 100px;">Name</th>
             <th>Mobile</th>
             <th>Email</th>
             <th>Work</th>
@@ -249,6 +254,7 @@
             <th>Actions</th>
             <th>Folder</th>
             <th>WhatsApp</th>
+            <th>Assignee WhatsApp</th>
         </tr>
     </table>
 
@@ -257,6 +263,13 @@
         let editId = null;
         let currentFilter = null; // Track the current filter
 
+
+const assigneeMobileNumbers = {
+    "NIKHIL": "+917989395723",
+    "Jane Smith": "+919876543210",
+    "Alice Johnson": "+911122334455",
+    // Add more assignees and their mobile numbers here
+};
         function filterData(status) {
             currentFilter = status; // Set the current filter
             fetchData(); // Fetch and display filtered data
@@ -306,9 +319,9 @@
                     const table = document.getElementById("dataTable");
                     table.innerHTML = `
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Mobile</th>
+                            <th style="max-width: 80px;">ID</th>
+                            <th style="max-width: 1200px;">Name</th>
+                            <th style="max-width: 1200px;">Mobile</th>
                             <th>Email</th>
                             <th>Work</th>
                             <th>Assign</th>
@@ -321,6 +334,7 @@
                             <th>Actions</th>
                             <th>Folder</th>
                             <th>WhatsApp</th>
+ 			<th>Assignee WhatsApp</th>
                         </tr>
                     `;
                     data.forEach((row) => {
@@ -372,6 +386,14 @@
                         whatsappButton.classList.add("whatsapp");
                         whatsappButton.onclick = function() { sendWhatsAppMessage(row); };
                         whatsappCell.appendChild(whatsappButton);
+                        
+			// WhatsApp Button ASSIGNEE
+                        const assigneeWhatsappCell = newRow.insertCell(15); // Add a new cell for the assignee WhatsApp button
+                        const assigneeWhatsappButton = document.createElement("button");
+                        assigneeWhatsappButton.innerText = "WhatsApp Assignee";
+                        assigneeWhatsappButton.classList.add("whatsapp-assignee");
+			assigneeWhatsappButton.onclick = function() { sendAssigneeWhatsAppMessage(row); };
+			assigneeWhatsappCell.appendChild(assigneeWhatsappButton);
                     });
                 })
                 .catch(error => console.error("Error fetching data:", error));
@@ -433,6 +455,26 @@
             const whatsappUrl = `https://wa.me/${internationalMobile}?text=${encodedMessage}`;
             window.open(whatsappUrl, "_blank");
         }
+function sendAssigneeWhatsAppMessage(row) {
+    const assigneeName = row.assign; // Get the assignee name from the row
+    const assigneeMobile = assigneeMobileNumbers[assigneeName]; // Fetch the mobile number from the list
+
+    if (!assigneeMobile) {
+        alert(`Assignee mobile number not found for ${assigneeName}`);
+        return;
+    }
+
+    // Construct the message
+    const message = `Hello ${assigneeName}, you have been assigned to work on ${row.work} for ${row.name}. Status: ${row.status}. Due Date: ${row.dueDate}.`;
+    const encodedMessage = encodeURIComponent(message);
+
+    // Generate the WhatsApp URL
+    const whatsappUrl = `https://wa.me/${assigneeMobile}?text=${encodedMessage}`;
+    console.log("Generated WhatsApp URL:", whatsappUrl); // Debugging
+
+    // Open the WhatsApp link
+    window.open(whatsappUrl, "_blank");
+}
 
         window.onload = fetchData;
     </script>
