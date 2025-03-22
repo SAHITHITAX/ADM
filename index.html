@@ -55,16 +55,22 @@
             border-collapse: collapse;
         }
 
+        #dataTable th,
+        #dataTable td {
+            max-width: 50px; /* Set maximum width for cells */
+            width: 80px; /* Set fixed width for cells */
+            white-space: wrap; /* Prevent text from wrapping */
+            overflow: hidden; /* Hide overflow content */
+            text-overflow: ellipsis; /* Add ellipsis for overflow text */
+        }
 
-
-  #dataTable th,
-#dataTable td {
-    max-width: 50px; /* Set maximum width for cells */
-    width: 80px; /* Set fixed width for cells */
-    white-space: wrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide overflow content */
-    text-overflow: ellipsis; /* Add ellipsis for overflow text */
-}
+        /* Freeze table heading */
+        #dataTable thead th {
+            position: sticky;
+            top: 260px; /* Adjust this value based on the height of your form */
+            background-color: #f2f2f2; /* Match the header background color */
+            z-index: 1; /* Ensure the header stays above the table body */
+        }
 
         #dataTable tr:nth-child(even) {
             background-color: #f9f9f9;
@@ -97,6 +103,7 @@
             background-color: #25d366;
             color: white;
         }
+
         #dataTable button.whatsapp-assignee {
             background-color: #34b7f1;
             color: white;
@@ -238,24 +245,29 @@
 
     <h2>Submitted Data</h2>
     <table border="1" id="dataTable">
-        <tr>
-            <th>ID</th>
-            <th style="max-width: 100px;">Name</th>
-            <th>Mobile</th>
-            <th>Email</th>
-            <th>Work</th>
-            <th>Assign</th>
-            <th>Status</th>
-            <th>Remark</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Charges</th>
-            <th>Due Date</th>
-            <th>Actions</th>
-            <th>Folder</th>
-            <th>WhatsApp</th>
-            <th>Assignee WhatsApp</th>
-        </tr>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Mobile</th>
+                <th>Email</th>
+                <th>Work</th>
+                <th>Assign</th>
+                <th>Status</th>
+                <th>Remark</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Charges</th>
+                <th>Due Date</th>
+                <th>Actions</th>
+                <th>Folder</th>
+                <th>WhatsApp</th>
+                <th>Assignee WhatsApp</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table rows will be dynamically inserted here -->
+        </tbody>
     </table>
 
     <script>
@@ -263,13 +275,13 @@
         let editId = null;
         let currentFilter = null; // Track the current filter
 
+        const assigneeMobileNumbers = {
+            "NIKHIL": "+917989395723",
+            "Jane Smith": "+919876543210",
+            "Alice Johnson": "+911122334455",
+            // Add more assignees and their mobile numbers here
+        };
 
-const assigneeMobileNumbers = {
-    "NIKHIL": "+917989395723",
-    "Jane Smith": "+919876543210",
-    "Alice Johnson": "+911122334455",
-    // Add more assignees and their mobile numbers here
-};
         function filterData(status) {
             currentFilter = status; // Set the current filter
             fetchData(); // Fetch and display filtered data
@@ -316,29 +328,11 @@ const assigneeMobileNumbers = {
                         data = data.filter(row => row.status === currentFilter);
                     }
 
-                    const table = document.getElementById("dataTable");
-                    table.innerHTML = `
-                        <tr>
-                            <th style="max-width: 80px;">ID</th>
-                            <th style="max-width: 1200px;">Name</th>
-                            <th style="max-width: 1200px;">Mobile</th>
-                            <th>Email</th>
-                            <th>Work</th>
-                            <th>Assign</th>
-                            <th>Status</th>
-                            <th>Remark</th>
-                            <th>Username</th>
-                            <th>Password</th>
-                            <th>Charges</th>
-                            <th>Due Date</th>
-                            <th>Actions</th>
-                            <th>Folder</th>
-                            <th>WhatsApp</th>
- 			<th>Assignee WhatsApp</th>
-                        </tr>
-                    `;
+                    const tableBody = document.querySelector("#dataTable tbody");
+                    tableBody.innerHTML = ""; // Clear existing rows
+
                     data.forEach((row) => {
-                        const newRow = table.insertRow();
+                        const newRow = tableBody.insertRow();
                         newRow.insertCell(0).innerText = row.id;
                         newRow.insertCell(1).innerText = row.name;
                         newRow.insertCell(2).innerText = row.mobile;
@@ -386,14 +380,14 @@ const assigneeMobileNumbers = {
                         whatsappButton.classList.add("whatsapp");
                         whatsappButton.onclick = function() { sendWhatsAppMessage(row); };
                         whatsappCell.appendChild(whatsappButton);
-                        
-			// WhatsApp Button ASSIGNEE
-                        const assigneeWhatsappCell = newRow.insertCell(15); // Add a new cell for the assignee WhatsApp button
+
+                        // Assignee WhatsApp Button
+                        const assigneeWhatsappCell = newRow.insertCell(15);
                         const assigneeWhatsappButton = document.createElement("button");
                         assigneeWhatsappButton.innerText = "WhatsApp Assignee";
                         assigneeWhatsappButton.classList.add("whatsapp-assignee");
-			assigneeWhatsappButton.onclick = function() { sendAssigneeWhatsAppMessage(row); };
-			assigneeWhatsappCell.appendChild(assigneeWhatsappButton);
+                        assigneeWhatsappButton.onclick = function() { sendAssigneeWhatsAppMessage(row); };
+                        assigneeWhatsappCell.appendChild(assigneeWhatsappButton);
                     });
                 })
                 .catch(error => console.error("Error fetching data:", error));
@@ -455,26 +449,27 @@ const assigneeMobileNumbers = {
             const whatsappUrl = `https://wa.me/${internationalMobile}?text=${encodedMessage}`;
             window.open(whatsappUrl, "_blank");
         }
-function sendAssigneeWhatsAppMessage(row) {
-    const assigneeName = row.assign; // Get the assignee name from the row
-    const assigneeMobile = assigneeMobileNumbers[assigneeName]; // Fetch the mobile number from the list
 
-    if (!assigneeMobile) {
-        alert(`Assignee mobile number not found for ${assigneeName}`);
-        return;
-    }
+        function sendAssigneeWhatsAppMessage(row) {
+            const assigneeName = row.assign; // Get the assignee name from the row
+            const assigneeMobile = assigneeMobileNumbers[assigneeName]; // Fetch the mobile number from the list
 
-    // Construct the message
-    const message = `Hello ${assigneeName}, you have been assigned to work on ${row.work} for ${row.name}. Status: ${row.status}. Due Date: ${row.dueDate}.`;
-    const encodedMessage = encodeURIComponent(message);
+            if (!assigneeMobile) {
+                alert(`Assignee mobile number not found for ${assigneeName}`);
+                return;
+            }
 
-    // Generate the WhatsApp URL
-    const whatsappUrl = `https://wa.me/${assigneeMobile}?text=${encodedMessage}`;
-    console.log("Generated WhatsApp URL:", whatsappUrl); // Debugging
+            // Construct the message
+            const message = `Hello ${assigneeName}, you have been assigned to work on ${row.work} for ${row.name}. Status: ${row.status}. Due Date: ${row.dueDate}.`;
+            const encodedMessage = encodeURIComponent(message);
 
-    // Open the WhatsApp link
-    window.open(whatsappUrl, "_blank");
-}
+            // Generate the WhatsApp URL
+            const whatsappUrl = `https://wa.me/${assigneeMobile}?text=${encodedMessage}`;
+            console.log("Generated WhatsApp URL:", whatsappUrl); // Debugging
+
+            // Open the WhatsApp link
+            window.open(whatsappUrl, "_blank");
+        }
 
         window.onload = fetchData;
     </script>
