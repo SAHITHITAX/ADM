@@ -449,7 +449,8 @@
     if (row.work.toUpperCase() === "DOCS") {
         message = `Hello ${row.name}, your work on ${row.work} is currently ${row.status}. Due date: ${row.dueDate}. Please send me the documents.`;
     } else {
-        message = `Hello ${row.name}, your work on ${row.work} is currently ${row.status}. Due date: ${row.dueDate}.`;
+        message = `Hello ${row.name}, your work on ${row.work} is currently ${row.status}. 
+        `;
     }
 
     const encodedMessage = encodeURIComponent(message);
