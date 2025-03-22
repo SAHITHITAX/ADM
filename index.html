@@ -432,24 +432,30 @@
             window.open(folderUrl, "_blank");
         }
 
-        function sendWhatsAppMessage(row) {
-            const mobile = row.mobile.replace(/\D/g, ''); // Remove all non-numeric characters
-            let internationalMobile;
-            if (mobile.startsWith('+')) {
-                internationalMobile = mobile;
-            } else if (mobile.startsWith('91') && mobile.length === 12) {
-                internationalMobile = `+${mobile}`;
-            } else if (mobile.length === 10) {
-                internationalMobile = `+91${mobile}`;
-            } else {
-                internationalMobile = mobile;
-            }
+      function sendWhatsAppMessage(row) {
+    const mobile = row.mobile.replace(/\D/g, ''); // Remove all non-numeric characters
+    let internationalMobile;
+    if (mobile.startsWith('+')) {
+        internationalMobile = mobile;
+    } else if (mobile.startsWith('91') && mobile.length === 12) {
+        internationalMobile = `+${mobile}`;
+    } else if (mobile.length === 10) {
+        internationalMobile = `+91${mobile}`;
+    } else {
+        internationalMobile = mobile;
+    }
 
-            const message = `Hello ${row.name}, your work on ${row.work} is currently ${row.status}. Due date: ${row.dueDate}.`;
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/${internationalMobile}?text=${encodedMessage}`;
-            window.open(whatsappUrl, "_blank");
-        }
+    let message;
+    if (row.work.toUpperCase() === "DOCS") {
+        message = `Hello ${row.name}, your work on ${row.work} is currently ${row.status}. Due date: ${row.dueDate}. Please send me the documents.`;
+    } else {
+        message = `Hello ${row.name}, your work on ${row.work} is currently ${row.status}. Due date: ${row.dueDate}.`;
+    }
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${internationalMobile}?text=${encodedMessage}`;
+    window.open(whatsappUrl, "_blank");
+}
 
         function sendAssigneeWhatsAppMessage(row) {
             const assigneeName = row.assign; // Get the assignee name from the row
