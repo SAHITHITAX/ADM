@@ -46,7 +46,7 @@
 
         /* Add margin to the table to avoid overlapping with the fixed form */
         #dataTable {
-            margin-top: 150px; /* Adjust this value based on the height of your form */
+            margin-top: 170px; /* Adjust this value based on the height of your form */
         }
 
         /* Style for the table */
@@ -92,10 +92,16 @@
             color: white;
         }
 
+        #dataTable button.whatsapp {
+            background-color: #25d366;
+            color: white;
+        }
+
         #dataTable button.open-folder {
             background-color: #17a2b8;
             color: white;
         }
+
         /* Style for the form container */
         #dataForm {
             position: fixed;
@@ -137,6 +143,7 @@
         #dataForm button:hover {
             background-color: #0056b3;
         }
+
         /* Style for the heading and caption */
         .form-header {
             width: 100%;
@@ -155,53 +162,75 @@
             font-size: 36px;
             color: #666;
         }
+
+        .apple-button {
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 30px;
+            background: linear-gradient(to bottom, #ffffff, #e0e0e0);
+            color: #333;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: none;
+            text-align: center;
+        }
+
+        .apple-button:hover {
+            background: linear-gradient(to bottom, #e0e0e0, #d0d0d0);
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
     <h2>Data Collection Form</h2>
     <form id="dataForm">
-      <div class="form-header">
+        <div class="form-header">
             <h1>CoreTax</h1>
             <p>We provide expert tax consulting services.</p>
         </div>
-        <input type="hidden" id="editId"> 
-        
+        <div class="button-container">
+            <a href="https://sahithitax.github.io/URGENT/" class="apple-button">URGENT</a>
+            <a href="https://sahithitax.github.io/PENDING/" class="apple-button">PENDING</a>
+            <a href="https://sahithitax.github.io/REMIND/" class="apple-button">REMIND</a>
+            <a href="https://sahithitax.github.io/DOCS/" class="apple-button">DOCS</a>
+            <a href="https://sahithitax.github.io/NEW/" class="apple-button">NEW</a>
+            <a href="https://sahithitax.github.io/CALL/" class="apple-button">CALL</a>
+            <a href="https://sahithitax.github.io/BAL/" class="apple-button">BAL</a>
+            <a href="https://sahithitax.github.io/RATING/" class="apple-button">RATING</a>
+            <a href="https://sahithitax.github.io/TOBE/" class="apple-button">TO BE</a>
+            <a href="https://sahithitax.github.io/LBR/" class="apple-button">LABOUR REMINDER</a>
+            <a href="https://sahithitax.github.io/ITR/" class="apple-button">ITR REMINDER</a>
+            <a href="https://sahithitax.github.io/GSTRTRN/" class="apple-button">GST RETURN</a>
+            <a href="https://sahithitax.github.io/TEST/" class="apple-button">TEST</a>
+        </div>
+        <input type="hidden" id="editId">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
-        
         <label for="mobile">Mobile:</label>
         <input type="tel" id="mobile" name="mobile" required>
-        
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
-        
         <label for="work">Work:</label>
         <input type="text" id="work" name="work" required>
-        
         <label for="assign">Assign:</label>
         <input type="text" id="assign" name="assign" required>
-        
         <label for="status">Status:</label>
         <input type="text" id="status" name="status" required>
-        
         <label for="remark">Remark:</label>
         <input type="text" id="remark" name="remark" required>
-        
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
-        
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
-        
         <label for="charges">Charges:</label>
         <input type="number" id="charges" name="charges" required>
-
         <label for="dueDate">Due Date:</label>
-        <input type="date" id="dueDate" name="dueDate" required> <!-- New Due Date Field -->
-        
+        <input type="date" id="dueDate" name="dueDate" required>
         <button type="button" onclick="submitForm()">Submit</button>
     </form>
-    
+
     <h2>Submitted Data</h2>
     <table border="1" id="dataTable">
         <tr>
@@ -216,12 +245,13 @@
             <th>Username</th>
             <th>Password</th>
             <th>Charges</th>
-            <th>Due Date</th> <!-- New Due Date Column -->
+            <th>Due Date</th>
             <th>Actions</th>
             <th>Folder</th>
+            <th>WhatsApp</th>
         </tr>
     </table>
-    
+
     <script>
         let editMode = false;
         let editId = null;
@@ -239,7 +269,7 @@
                 username: document.getElementById("username").value,
                 password: document.getElementById("password").value,
                 charges: document.getElementById("charges").value,
-                dueDate: document.getElementById("dueDate").value // New Due Date Field
+                dueDate: document.getElementById("dueDate").value
             };
 
             fetch('https://script.google.com/macros/s/AKfycbzN788DR1TtAarYEzjD283sLr9Lh74t2885GxVE7ZcDC6aFnbihEnkPRrQLBxoLGEy6Dg/exec', {
@@ -276,9 +306,10 @@
                             <th>Username</th>
                             <th>Password</th>
                             <th>Charges</th>
-                            <th>Due Date</th> <!-- New Due Date Column -->
+                            <th>Due Date</th>
                             <th>Actions</th>
                             <th>Folder</th>
+                            <th>WhatsApp</th>
                         </tr>
                     `;
                     data.forEach((row) => {
@@ -294,7 +325,7 @@
                         newRow.insertCell(8).innerText = row.username;
                         newRow.insertCell(9).innerText = row.password;
                         newRow.insertCell(10).innerText = row.charges;
-                        newRow.insertCell(11).innerText = row.dueDate; // New Due Date Column
+                        newRow.insertCell(11).innerText = row.dueDate;
                         const actionCell = newRow.insertCell(12);
 
                         // Edit Button
@@ -322,6 +353,14 @@
                         } else {
                             folderCell.innerText = "No Folder";
                         }
+
+                        // WhatsApp Button
+                        const whatsappCell = newRow.insertCell(14);
+                        const whatsappButton = document.createElement("button");
+                        whatsappButton.innerText = "WhatsApp";
+                        whatsappButton.classList.add("whatsapp");
+                        whatsappButton.onclick = function() { sendWhatsAppMessage(row); };
+                        whatsappCell.appendChild(whatsappButton);
                     });
                 })
                 .catch(error => console.error("Error fetching data:", error));
@@ -339,7 +378,7 @@
             document.getElementById("username").value = row.username;
             document.getElementById("password").value = row.password;
             document.getElementById("charges").value = row.charges;
-            document.getElementById("dueDate").value = row.dueDate; // New Due Date Field
+            document.getElementById("dueDate").value = row.dueDate;
             editMode = true;
             editId = row.id;
         }
@@ -363,6 +402,44 @@
         function openFolder(folderId) {
             const folderUrl = `https://drive.google.com/drive/folders/${folderId}`;
             window.open(folderUrl, "_blank");
+        }
+
+
+        function sendWhatsAppMessage(row) {
+            console.log("sendWhatsAppMessage called with row:", row); // Debugging
+
+            // Ensure the mobile number is in international format
+            const mobile = row.mobile.replace(/\D/g, ''); // Remove all non-numeric characters
+            console.log("Cleaned mobile number:", mobile); // Debugging
+
+            // Check if the number already starts with a country code
+            let internationalMobile;
+            if (mobile.startsWith('+')) {
+                // If it already starts with '+', use it as-is
+                internationalMobile = mobile;
+            } else if (mobile.startsWith('91') && mobile.length === 12) {
+                // If it starts with '91' and is 12 digits long, add a '+' to make it international
+                internationalMobile = `+${mobile}`;
+            } else if (mobile.length === 10) {
+                // If it's a 10-digit number, assume it's an Indian number and add '+91'
+                internationalMobile = `+91${mobile}`;
+            } else {
+                // If it doesn't match any of the above, use it as-is (may not work for WhatsApp)
+                internationalMobile = mobile;
+            }
+
+            console.log("Formatted international mobile number:", internationalMobile); // Debugging
+
+            // Construct the message
+            const message = `Hello ${row.name}, your work on ${row.work} is currently ${row.status}. Due date: ${row.dueDate}.`;
+            const encodedMessage = encodeURIComponent(message);
+
+            // Generate the WhatsApp URL
+            const whatsappUrl = `https://wa.me/${internationalMobile}?text=${encodedMessage}`;
+            console.log("Generated WhatsApp URL:", whatsappUrl); // Debugging
+
+            // Open the WhatsApp link
+            window.open(whatsappUrl, "_blank");
         }
 
         window.onload = fetchData;
