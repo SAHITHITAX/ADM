@@ -89,14 +89,14 @@
             border-collapse: collapse;
         }
 
-        #dataTable th,
-        #dataTable td {
-            max-width: 50px; /* Set maximum width for cells */
-            width: 80px; /* Set fixed width for cells */
-            white-space: wrap; /* Prevent text from wrapping */
-            overflow: hidden; /* Hide overflow content */
-            text-overflow: ellipsis; /* Add ellipsis for overflow text */
-        }
+#dataTable th,
+#dataTable td {
+    max-width: none; /* Remove max-width restriction */
+    width: auto; /* Allow cells to expand based on content */
+    white-space: normal; /* Allow text to wrap */
+    overflow: visible; /* Show overflow content */
+    text-overflow: clip; /* Remove ellipsis */
+}
 
         /* Freeze table heading */
         #dataTable thead th {
