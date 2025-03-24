@@ -1,10 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200, initial-scale=1.0">
     <title>Data Collection Form</title>
     <style>
+
+/* Hide the entire page on mobile devices */
+        @media (max-width: 767px) {
+            body {
+                display: none;
+            }
+
+            /* Show a message for mobile users */
+            body::before {
+                content: "This page is only available on desktop devices.";
+                display: block;
+                text-align: center;
+                font-size: 24px;
+                margin-top: 50px;
+                color: red;
+            }
+        }
+
+        /* Rest of your CSS styles */
+        #dataForm {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f9f9f9;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
         /* Style for the fixed form */
         #dataForm {
             position: fixed;
@@ -175,21 +209,43 @@
             color: #666;
         }
 
-        .apple-button {
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: bold;
-            padding: 12px 20px;
-            border-radius: 30px;
-            background: linear-gradient(to bottom, #ffffff, #e0e0e0);
-            color: #333;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            border: none;
-            text-align: center;
-        }
+.button-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow buttons to wrap to the next line */
+    gap: 10px; /* Add space between buttons horizontally and vertically */
+    justify-content: center; /* Center buttons horizontally */
+    padding: 10px; /* Add padding around the container */
+}
 
-        .apple-button:hover {
+.apple-button {
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 30px;
+    background: linear-gradient(to bottom, #ffffff, #e0e0e0);
+    color: #333;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: none;
+    text-align: center;
+    margin: 0; /* Remove default margin */
+    flex: 1 1 auto; /* Allow buttons to grow and shrink */
+    min-width: 120px; /* Set a minimum width for buttons */
+}
+
+/* Media Query for Mobile Devices */
+@media (max-width: 480px) {
+    .apple-button {
+        font-size: 14px; /* Reduce font size for smaller screens */
+        padding: 10px 15px; /* Reduce padding for smaller screens */
+        min-width: 100px; /* Reduce minimum width for smaller screens */
+    }
+
+    .button-container {
+        gap: 8px; /* Reduce gap for smaller screens */
+    }
+}        .apple-button:hover {
             background: linear-gradient(to bottom, #e0e0e0, #d0d0d0);
             box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
         }
@@ -216,7 +272,7 @@
             <a href="#" class="apple-button" onclick="filterData('ITR REMINDER'); return false;">ITR REMINDER</a>
             <a href="#" class="apple-button" onclick="filterData('GST RETURN'); return false;">GST RETURN</a>
             <a href="#" class="apple-button" onclick="filterData('TEST'); return false;">TEST</a>
-            
+            <a href="#" class="apple-button" onclick="filterData('TEST'); return false;">TEST</a>
         </div></br>
         <input type="hidden" id="editId">
         <label for="name">Name:</label>
