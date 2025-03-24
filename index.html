@@ -360,7 +360,7 @@
                 dueDate: document.getElementById("dueDate").value
             };
 
-            fetch('https://script.google.com/macros/s/AKfycbzN788DR1TtAarYEzjD283sLr9Lh74t2885GxVE7ZcDC6aFnbihEnkPRrQLBxoLGEy6Dg/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbyzVrkiJlT9V2Vpw7hCrc8W9ILX73x1BiY2zhZgu8RvG-dyLNuW1vpqiHzZjNN43agvvw/exec', {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: {
@@ -377,7 +377,7 @@
         }
 
         function fetchData() {
-            fetch('https://script.google.com/macros/s/AKfycbzN788DR1TtAarYEzjD283sLr9Lh74t2885GxVE7ZcDC6aFnbihEnkPRrQLBxoLGEy6Dg/exec')
+            fetch('https://script.google.com/macros/s/AKfycbyzVrkiJlT9V2Vpw7hCrc8W9ILX73x1BiY2zhZgu8RvG-dyLNuW1vpqiHzZjNN43agvvw/exec')
                 .then(response => response.json())
                 .then(data => {
                     // Apply the filter if one is set
@@ -469,7 +469,7 @@
 
         function deleteRow(id) {
             if (confirm("Are you sure you want to delete this record?")) {
-                fetch('https://script.google.com/macros/s/AKfycbzN788DR1TtAarYEzjD283sLr9Lh74t2885GxVE7ZcDC6aFnbihEnkPRrQLBxoLGEy6Dg/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbyzVrkiJlT9V2Vpw7hCrc8W9ILX73x1BiY2zhZgu8RvG-dyLNuW1vpqiHzZjNN43agvvw/exec', {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: {
