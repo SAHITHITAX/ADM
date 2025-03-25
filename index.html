@@ -523,7 +523,7 @@ function sendWhatsAppMessage(row) {
             }
 
             // Construct the message
-            const message = `Hello ${assigneeName}, you have been assigned to work on ${row.work} for ${row.name}. Status: ${row.status}. Due Date: ${row.dueDate}.`;
+            const message = `Hello ${assigneeName}, you have been assigned to work on ${row.work} for ${row.name}. Status: ${row.status}, Username: ${row.username}, Password;${row.password} .`;
             const encodedMessage = encodeURIComponent(message);
 
             // Generate the WhatsApp URL
