@@ -282,6 +282,88 @@
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
         <label for="work">Work:</label>
+           <label for="work">Service Required:</label>
+          <select id="work" name="work" required onchange="updateRequiredDocs()">
+            <option value="">-- Select a Service --</option>
+            
+            <optgroup label="PAN Services">
+              <option value="Apply for New PAN">Apply for New PAN (Individual, Firm, Company etc.)</option>
+              <option value="Apply for PAN Correction">Apply for PAN Correction (Individual, Firm, Company etc.)</option>
+              <option value="Apply for PAN Reprint">Apply for PAN Reprint</option>
+              <option value="Apply for PAN - PAN allotted already">Apply for PAN - PAN allotted already (PAN Number lost)</option>
+              <option value="Duplicate PAN Cancellation">Duplicate PAN Cancellation</option>
+            </optgroup>
+            
+            <optgroup label="Aadhar Services">
+              <option value="Aadhar PAN Link">Aadhar PAN Link</option>
+              <option value="Aadhar Father name Correction">Aadhar Father name Correction</option>
+              <option value="Aadhar Address Correction">Aadhar Address Correction</option>
+            </optgroup>
+            
+            <optgroup label="GST Services">
+              <option value="New GST Registration">New GST Registration</option>
+              <option value="GST Return Filing">GST Return Filing</option>
+              <option value="GST Consultation">GST Consultation</option>
+              <option value="Cancellation of GST">Cancellation of GST</option>
+              <option value="GST Notice">GST Notice</option>
+              <option value="Composition Scheme">Composition Scheme</option>
+              <option value="Gst Refund">Gst Refund</option>
+              <option value="E-way Bill">E-way Bill</option>
+              <option value="Casual Taxable Person - GST">Casual Taxable Person - GST</option>
+            </optgroup>
+            
+            <optgroup label="Financial Services">
+              <option value="Turnover Certificate">Turnover Certificate</option>
+              <option value="Networth Certificate">Networth Certificate</option>
+              <option value="Accounting">Accounting</option>
+              <option value="CA Report">CA Report</option>
+              <option value="Finanacial Statements">Financial Statements</option>
+              <option value="UDIN Certification Services">UDIN Certification Services</option>
+            </optgroup>
+            
+            <optgroup label="Income Tax Services">
+              <option value="ITR Filing (3 Years)">ITR Filing (3 Years)</option>
+              <option value="Form 26AS (Form 16)">Form 26AS (Form 16)</option>
+              <option value="Income Tax Notice">Income Tax Notice</option>
+              <option value="Income Tax Refund">Income Tax Refund</option>
+              <option value="TDS/TCS Filing">TDS/TCS Filing</option>
+              <option value="Capital Gains">Capital Gains (Shares, Options, Mutual Funds)</option>
+              <option value="Tax Planning">Tax Planning</option>
+              <option value="Tax Audit">Tax Audit</option>
+            </optgroup>
+            
+            <optgroup label="Company Registration">
+              <option value="New Company Registration">New Company Registration (Pvt, Ltd, OPC etc)</option>
+              <option value="MCA Filings">MCA Filings</option>
+              <option value="ROC Comliances">ROC Comliances</option>
+              <option value="LLP Registration">LLP Registration</option>
+              <option value="Firm Registration">Firm Registration</option>
+              <option value="DIN-Director Services">DIN-Director Services</option>
+              <option value="Startup Registration">Startup Registration</option>
+            </optgroup>
+            
+            <optgroup label="Licenses & Registrations">
+              <option value="EPF | ESI Registration">EPF | ESI Registration</option>
+              <option value="MSME (Udyam Registration)">MSME (Udyam Registration)</option>
+              <option value="Trademark Registration">Trademark Registration</option>
+              <option value="HUF Registration">HUF Registration</option>
+              <option value="Professional Tax Registration">Professional Tax Registration (payments & Return)</option>
+              <option value="Labour Licence">Labour Licence</option>
+              <option value="GHMC Trade Licence">GHMC Trade Licence</option>
+              <option value="Food Licence (FSSAI)">Food Licence (FSSAI)</option>
+            </optgroup>
+            
+            <optgroup label="Other Services">
+              <option value="EPF Withdrawal">EPF Withdrawal</option>
+              <option value="Digital Signature (DSC)">Digital Signature (DSC)</option>
+              <option value="Payroll Outsourse">Payroll Outsourse</option>
+              <option value="E-Commerce Consultation">E-Commerce Consultation</option>
+              <option value="Rental Deed">Rental Deed</option>
+              <option value="Partnership Deed">Partnership Deed</option>
+              <option value="Agreements, Contracts etc">Agreements, Contracts etc.</option>
+            </optgroup>
+          </select><br>
+         
         <input type="text" id="work" name="work" required>
         <label for="assign">Assign:</label>
         <input type="text" id="assign" name="assign" required>
