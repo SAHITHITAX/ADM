@@ -366,12 +366,13 @@
                <option value="others">Others (Specify)</option>
           </select><br>
          
-        <input type="text" id="work" name="work" required>
+      
         <label for="assign">Assign:</label>
         <input type="text" id="assign" name="assign" required>
         <label for="status">Status:</label>
-         <option value="New Company Registration">New Company Registration (Pvt, Ltd, OPC etc)</option>
-         
+         <select id="status" name="status" required onchange="updateRequiredDocs()">
+         <option value="URGENT">URGENT</option>
+         </select>
         <input type="text" id="status" name="status" required>
          <option value="New Company Registration">New Company Registration (Pvt, Ltd, OPC etc)</option>
          <option value="New Company Registration">New Company Registration (Pvt, Ltd, OPC etc)</option>
