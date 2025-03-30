@@ -1,109 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200, initial-scale=1.0">
-    <title>Data Collection Form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoreTax Client Management</title>
     <style>
-
-/* Hide the entire page on mobile devices */
-        @media (max-width: 767px) {
-            body {
-                display: none;
-            }
-
-            /* Show a message for mobile users */
-            body::before {
-                content: "This page is only available on desktop devices.";
-                display: block;
-                text-align: center;
-                font-size: 24px;
-                margin-top: 50px;
-                color: red;
-            }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        /* Rest of your CSS styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        /* Form Styling */
         #dataForm {
-            position: fixed;
-            top: 0;
-            left: 0;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-header h1 {
+            color: #3498db;
+            font-size: 28px;
+        }
+
+        .form-header p {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        input, select {
             width: 100%;
-            background-color: #f9f9f9;
             padding: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-        }
-
-        /* Style for the fixed form */
-        #dataForm {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #f9f9f9;
-            padding: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-        }
-
-        #dataForm label {
-            margin-right: 5px;
-        }
-
-        #dataForm input {
-            padding: 5px;
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
             border-radius: 4px;
+            font-size: 16px;
+            transition: border 0.3s;
         }
 
-        #dataForm button {
-            padding: 5px 10px;
-            background-color: #007bff;
+        input:focus, select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #3498db;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            width: 100%;
         }
 
-        #dataForm button:hover {
-            background-color: #0056b3;
+        button:hover {
+            background-color: #2980b9;
         }
 
-        /* Add margin to the table to avoid overlapping with the fixed form */
+        /* Button Container */
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+            justify-content: center;
+        }
+
+        .filter-button {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 20px;
+            background: linear-gradient(to bottom, #ffffff, #f0f0f0);
+            color: #2c3e50;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #ddd;
+            text-align: center;
+            flex: 1 1 auto;
+            min-width: 80px;
+        }
+
+        .filter-button:hover {
+            background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Status-specific button colors */
+        .urgent { border-left: 4px solid #e74c3c; }
+        .pending { border-left: 4px solid #f39c12; }
+        .done { border-left: 4px solid #2ecc71; }
+        .docs { border-left: 4px solid #9b59b6; }
+        .new { border-left: 4px solid #3498db; }
+
+        /* Table Styling - Desktop */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
         #dataTable {
-            margin-top: 260px; /* Adjust this value based on the height of your form */
-        }
-
-        /* Style for the table */
-        #dataTable {
-            width: 90%;
+            width: 100%;
             border-collapse: collapse;
+            display: table;
         }
 
-#dataTable th,
-#dataTable td {
-    max-width: none; /* Remove max-width restriction */
-    width: auto; /* Allow cells to expand based on content */
-    white-space: normal; /* Allow text to wrap */
-    overflow: visible; /* Show overflow content */
-    text-overflow: clip; /* Remove ellipsis */
-}
+        #dataTable th, #dataTable td {
+            padding: 12px 15px;
+            border: 1px solid #eee;
+            text-align: left;
+            vertical-align: top;
+            word-break: break-word;
+        }
 
-        /* Freeze table heading */
-        #dataTable thead th {
+        #dataTable th {
+            background-color: #3498db;
+            color: white;
             position: sticky;
-            top: 260px; /* Adjust this value based on the height of your form */
-            background-color: #f2f2f2; /* Match the header background color */
-            z-index: 1; /* Ensure the header stays above the table body */
+            top: 0;
         }
 
         #dataTable tr:nth-child(even) {
@@ -114,335 +168,388 @@
             background-color: #f1f1f1;
         }
 
-        /* Style for action buttons */
-        #dataTable button {
-            padding: 5px 10px;
-            margin: 2px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        #dataTable button.edit {
-            background-color: #28a745;
-            color: white;
-        }
-
-        #dataTable button.delete {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        #dataTable button.whatsapp {
-            background-color: #25d366;
-            color: white;
-        }
-
-        #dataTable button.whatsapp-assignee {
-            background-color: #34b7f1;
-            color: white;
-        }
-
-        #dataTable button.open-folder {
-            background-color: #17a2b8;
-            color: white;
-        }
-
-        /* Style for the form container */
-        #dataForm {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #f9f9f9;
-            padding: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
+        /* Action Buttons */
+        .action-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
+            gap: 5px;
         }
 
-        /* Style for labels and inputs */
-        #dataForm label {
-            margin: 0 5px;
+        .action-buttons button {
+            padding: 6px 10px;
+            font-size: 14px;
+            width: auto;
+            flex: 1 1 auto;
         }
 
-        #dataForm input {
-            padding: 5px;
-            margin: 0 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        .edit { background-color: #2ecc71; }
+        .edit:hover { background-color: #27ae60; }
+        .delete { background-color: #e74c3c; }
+        .delete:hover { background-color: #c0392b; }
+        .whatsapp { background-color: #25d366; }
+        .whatsapp:hover { background-color: #128c7e; }
+        .whatsapp-assignee { background-color: #34b7f1; }
+        .whatsapp-assignee:hover { background-color: #1da1f2; }
+        .open-folder { background-color: #9b59b6; }
+        .open-folder:hover { background-color: #8e44ad; }
+
+        /* Mobile Cards - hidden by default */
+        .mobile-cards {
+            display: none;
         }
 
-        /* Style for the submit button */
-        #dataForm button {
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+        .mobile-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
-        #dataForm button:hover {
-            background-color: #0056b3;
+        .mobile-card .card-row {
+            display: flex;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
         }
 
-        /* Style for the heading and caption */
-        .form-header {
-            width: 100%;
+        .mobile-card .card-label {
+            font-weight: 600;
+            min-width: 120px;
+            color: #7f8c8d;
+        }
+
+        .mobile-card .card-value {
+            flex: 1;
+            word-break: break-word;
+        }
+
+        .mobile-card .action-buttons {
+            margin-top: 10px;
+            justify-content: center;
+        }
+
+        .mobile-card .status-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            border-radius: 8px 0 0 8px;
+        }
+
+        /* Status colors */
+        .status-URGENT { background-color: #e74c3c; }
+        .status-PENDING { background-color: #f39c12; }
+        .status-DONE { background-color: #2ecc71; }
+        .status-DOCS { background-color: #9b59b6; }
+        .status-NEW { background-color: #3498db; }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #dataTable {
+                display: none;
+            }
+            
+            .mobile-cards {
+                display: block;
+            }
+            
+            .form-header h1 {
+                font-size: 24px;
+            }
+            
+            .filter-button {
+                font-size: 12px;
+                padding: 6px 8px;
+                min-width: 60px;
+            }
+            
+            .form-group {
+                margin-bottom: 12px;
+            }
+            
+            .mobile-card .card-label {
+                min-width: 100px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-cards {
+                display: none !important;
+            }
+            
+            #dataTable {
+                display: table !important;
+            }
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none;
+        }
+
+        .text-center {
             text-align: center;
-            margin-bottom: 10px;
         }
 
-        .form-header h1 {
-            margin: 0;
-            font-size: 72px;
-            color: #333;
+        .mt-20 {
+            margin-top: 20px;
         }
-
-        .form-header p {
-            margin: 0;
-            font-size: 36px;
-            color: #666;
-        }
-
-.button-container {
-    display: flex;
-    flex-wrap: wrap; /* Allow buttons to wrap to the next line */
-    gap: 10px; /* Add space between buttons horizontally and vertically */
-    justify-content: center; /* Center buttons horizontally */
-    padding: 10px; /* Add padding around the container */
-}
-
-.apple-button {
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 12px 20px;
-    border-radius: 30px;
-    background: linear-gradient(to bottom, #ffffff, #e0e0e0);
-    color: #333;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    border: none;
-    text-align: center;
-    margin: 0; /* Remove default margin */
-    flex: 1 1 auto; /* Allow buttons to grow and shrink */
-    min-width: 120px; /* Set a minimum width for buttons */
-}
-
-/* Media Query for Mobile Devices */
-@media (max-width: 480px) {
-    .apple-button {
-        font-size: 14px; /* Reduce font size for smaller screens */
-        padding: 10px 15px; /* Reduce padding for smaller screens */
-        min-width: 100px; /* Reduce minimum width for smaller screens */
-    }
-
-    .button-container {
-        gap: 8px; /* Reduce gap for smaller screens */
-    }
-}        .apple-button:hover {
-            background: linear-gradient(to bottom, #e0e0e0, #d0d0d0);
-            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        
+        .password-field {
+            font-family: monospace;
         }
     </style>
 </head>
 <body>
-    <h2>Data Collection Form</h2>
     <form id="dataForm">
         <div class="form-header">
             <h1>CoreTax</h1>
-            <p>We provide expert tax consulting services.</p>
+            <p>Professional Tax Consulting Services</p>
         </div>
+        
         <div class="button-container">
-            <a href="#" class="apple-button" onclick="filterData('URGENT'); return false;">URGENT</a>
-            <a href="#" class="apple-button" onclick="filterData('PENDING'); return false;">PENDING</a>
-            <a href="#" class="apple-button" onclick="filterData('REMIND'); return false;">REMIND</a>
-            <a href="#" class="apple-button" onclick="filterData('DOCS'); return false;">DOCS</a>
-            <a href="#" class="apple-button" onclick="filterData('NEW'); return false;">NEW</a>
-            <a href="#" class="apple-button" onclick="filterData('CALL'); return false;">CALL</a>
-            <a href="#" class="apple-button" onclick="filterData('BAL'); return false;">BAL</a>
-            <a href="#" class="apple-button" onclick="filterData('RATING'); return false;">RATING</a>
-            <a href="#" class="apple-button" onclick="filterData('TO BE'); return false;">TO BE</a>
-            <a href="#" class="apple-button" onclick="filterData('LABOUR REMINDER'); return false;">LABOUR REMINDER</a>
-            <a href="#" class="apple-button" onclick="filterData('ITR REMINDER'); return false;">ITR REMINDER</a>
-            <a href="#" class="apple-button" onclick="filterData('GST RETURN'); return false;">GST RETURN</a>
-            <a href="#" class="apple-button" onclick="filterData('RATING'); return false;">RATING</a>
-            <a href="#" class="apple-button" onclick="filterData('TEST'); return false;">TEST</a>
-        </div></br>
-        <input type="hidden" id="editId">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-        <label for="mobile">Mobile:</label>
-        <input type="tel" id="mobile" name="mobile" required>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <label for="work">Work:</label>
-           <label for="work">Service Required:</label>
-          <select id="work" name="work" required onchange="updateRequiredDocs()">
-            <option value="">-- Select a Service --</option>
-            
-            <optgroup label="PAN Services">
-              <option value="Apply for New PAN">Apply for New PAN (Individual, Firm, Company etc.)</option>
-              <option value="Apply for PAN Correction">Apply for PAN Correction (Individual, Firm, Company etc.)</option>
-              <option value="Apply for PAN Reprint">Apply for PAN Reprint</option>
-              <option value="Apply for PAN - PAN allotted already">Apply for PAN - PAN allotted already (PAN Number lost)</option>
-              <option value="Duplicate PAN Cancellation">Duplicate PAN Cancellation</option>
-            </optgroup>
-            
-            <optgroup label="Aadhar Services">
-              <option value="Aadhar PAN Link">Aadhar PAN Link</option>
-              <option value="Aadhar Father name Correction">Aadhar Father name Correction</option>
-              <option value="Aadhar Address Correction">Aadhar Address Correction</option>
-            </optgroup>
-            
-            <optgroup label="GST Services">
-              <option value="New GST Registration">New GST Registration</option>
-              <option value="GST Return Filing">GST Return Filing</option>
-              <option value="GST Consultation">GST Consultation</option>
-              <option value="Cancellation of GST">Cancellation of GST</option>
-              <option value="GST Notice">GST Notice</option>
-              <option value="Composition Scheme">Composition Scheme</option>
-              <option value="Gst Refund">Gst Refund</option>
-              <option value="E-way Bill">E-way Bill</option>
-              <option value="Casual Taxable Person - GST">Casual Taxable Person - GST</option>
-            </optgroup>
-            
-            <optgroup label="Financial Services">
-              <option value="Turnover Certificate">Turnover Certificate</option>
-              <option value="Networth Certificate">Networth Certificate</option>
-              <option value="Accounting">Accounting</option>
-              <option value="CA Report">CA Report</option>
-              <option value="Finanacial Statements">Financial Statements</option>
-              <option value="UDIN Certification Services">UDIN Certification Services</option>
-            </optgroup>
-            
-            <optgroup label="Income Tax Services">
-              <option value="ITR Filing (3 Years)">ITR Filing (3 Years)</option>
-              <option value="Form 26AS (Form 16)">Form 26AS (Form 16)</option>
-              <option value="Income Tax Notice">Income Tax Notice</option>
-              <option value="Income Tax Refund">Income Tax Refund</option>
-              <option value="TDS/TCS Filing">TDS/TCS Filing</option>
-              <option value="Capital Gains">Capital Gains (Shares, Options, Mutual Funds)</option>
-              <option value="Tax Planning">Tax Planning</option>
-              <option value="Tax Audit">Tax Audit</option>
-            </optgroup>
-            
-            <optgroup label="Company Registration">
-              <option value="New Company Registration">New Company Registration (Pvt, Ltd, OPC etc)</option>
-              <option value="MCA Filings">MCA Filings</option>
-              <option value="ROC Comliances">ROC Comliances</option>
-              <option value="LLP Registration">LLP Registration</option>
-              <option value="Firm Registration">Firm Registration</option>
-              <option value="DIN-Director Services">DIN-Director Services</option>
-              <option value="Startup Registration">Startup Registration</option>
-            </optgroup>
-            
-            <optgroup label="Licenses & Registrations">
-              <option value="EPF | ESI Registration">EPF | ESI Registration</option>
-              <option value="MSME (Udyam Registration)">MSME (Udyam Registration)</option>
-              <option value="Trademark Registration">Trademark Registration</option>
-              <option value="HUF Registration">HUF Registration</option>
-              <option value="Professional Tax Registration">Professional Tax Registration (payments & Return)</option>
-              <option value="Labour Licence">Labour Licence</option>
-              <option value="GHMC Trade Licence">GHMC Trade Licence</option>
-              <option value="Food Licence (FSSAI)">Food Licence (FSSAI)</option>
-            </optgroup>
-            
-            <optgroup label="Other Services">
-              <option value="EPF Withdrawal">EPF Withdrawal</option>
-              <option value="Digital Signature (DSC)">Digital Signature (DSC)</option>
-              <option value="Payroll Outsourse">Payroll Outsourse</option>
-              <option value="E-Commerce Consultation">E-Commerce Consultation</option>
-              <option value="Rental Deed">Rental Deed</option>
-              <option value="Partnership Deed">Partnership Deed</option>
-              <option value="Agreements, Contracts etc">Agreements, Contracts etc.</option>
-            </optgroup>
+            <a href="#" class="filter-button urgent" onclick="filterData('URGENT'); return false;">URGENT</a>
+            <a href="#" class="filter-button pending" onclick="filterData('PENDING'); return false;">PENDING</a>
+            <a href="#" class="filter-button" onclick="filterData('REMIND'); return false;">REMIND</a>
+            <a href="#" class="filter-button docs" onclick="filterData('DOCS'); return false;">DOCS</a>
+            <a href="#" class="filter-button new" onclick="filterData('NEW'); return false;">NEW</a>
+            <a href="#" class="filter-button" onclick="filterData('CALL'); return false;">CALL</a>
+            <a href="#" class="filter-button" onclick="filterData('BAL'); return false;">BAL</a>
+            <a href="#" class="filter-button" onclick="filterData('RATING'); return false;">RATING</a>
+            <a href="#" class="filter-button" onclick="filterData('TO BE'); return false;">TO BE</a>
+            <a href="#" class="filter-button" onclick="filterData('LABOUR REMINDER'); return false;">LABOUR</a>
+            <a href="#" class="filter-button" onclick="filterData('ITR REMINDER'); return false;">ITR</a>
+            <a href="#" class="filter-button" onclick="filterData('GST RETURN'); return false;">GST</a>
+            <a href="#" class="filter-button done" onclick="filterData('DONE'); return false;">DONE</a>
+            <a href="#" class="filter-button" onclick="clearFilter(); return false;">ALL</a>
+        </div>
+        
+        <div class="form-group">
+            <label for="name">Client Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="mobile">Mobile Number:</label>
+            <input type="tel" id="mobile" name="mobile" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="work">Service Required:</label>
+            <select id="work" name="work" required>
+                <option value="">-- Select a Service --</option>
+                
+                <optgroup label="PAN Services">
+                  <option value="Apply for New PAN">Apply for New PAN (Individual, Firm, Company etc.)</option>
+                  <option value="Apply for PAN Correction">Apply for PAN Correction (Individual, Firm, Company etc.)</option>
+                  <option value="Apply for PAN Reprint">Apply for PAN Reprint</option>
+                  <option value="Apply for PAN - PAN allotted already">Apply for PAN - PAN allotted already (PAN Number lost)</option>
+                  <option value="Duplicate PAN Cancellation">Duplicate PAN Cancellation</option>
+                </optgroup>
+                
+                <optgroup label="Aadhar Services">
+                  <option value="Aadhar PAN Link">Aadhar PAN Link</option>
+                  <option value="Aadhar Father name Correction">Aadhar Father name Correction</option>
+                  <option value="Aadhar Address Correction">Aadhar Address Correction</option>
+                </optgroup>
+                
+                <optgroup label="GST Services">
+                  <option value="New GST Registration">New GST Registration</option>
+                  <option value="GST Return Filing">GST Return Filing</option>
+                  <option value="GST Consultation">GST Consultation</option>
+                  <option value="Cancellation of GST">Cancellation of GST</option>
+                  <option value="GST Notice">GST Notice</option>
+                  <option value="Composition Scheme">Composition Scheme</option>
+                  <option value="Gst Refund">Gst Refund</option>
+                  <option value="E-way Bill">E-way Bill</option>
+                  <option value="Casual Taxable Person - GST">Casual Taxable Person - GST</option>
+                </optgroup>
+                
+                <optgroup label="Financial Services">
+                  <option value="Turnover Certificate">Turnover Certificate</option>
+                  <option value="Networth Certificate">Networth Certificate</option>
+                  <option value="Accounting">Accounting</option>
+                  <option value="CA Report">CA Report</option>
+                  <option value="Finanacial Statements">Financial Statements</option>
+                  <option value="UDIN Certification Services">UDIN Certification Services</option>
+                </optgroup>
+                
+                <optgroup label="Income Tax Services">
+                  <option value="ITR Filing (3 Years)">ITR Filing (3 Years)</option>
+                  <option value="Form 26AS (Form 16)">Form 26AS (Form 16)</option>
+                  <option value="Income Tax Notice">Income Tax Notice</option>
+                  <option value="Income Tax Refund">Income Tax Refund</option>
+                  <option value="TDS/TCS Filing">TDS/TCS Filing</option>
+                  <option value="Capital Gains">Capital Gains (Shares, Options, Mutual Funds)</option>
+                  <option value="Tax Planning">Tax Planning</option>
+                  <option value="Tax Audit">Tax Audit</option>
+                </optgroup>
+                
+                <optgroup label="Company Registration">
+                  <option value="New Company Registration">New Company Registration (Pvt, Ltd, OPC etc)</option>
+                  <option value="MCA Filings">MCA Filings</option>
+                  <option value="ROC Comliances">ROC Comliances</option>
+                  <option value="LLP Registration">LLP Registration</option>
+                  <option value="Firm Registration">Firm Registration</option>
+                  <option value="DIN-Director Services">DIN-Director Services</option>
+                  <option value="Startup Registration">Startup Registration</option>
+                </optgroup>
+                
+                <optgroup label="Licenses & Registrations">
+                  <option value="EPF | ESI Registration">EPF | ESI Registration</option>
+                  <option value="MSME (Udyam Registration)">MSME (Udyam Registration)</option>
+                  <option value="Trademark Registration">Trademark Registration</option>
+                  <option value="HUF Registration">HUF Registration</option>
+                  <option value="Professional Tax Registration">Professional Tax Registration (payments & Return)</option>
+                  <option value="Labour Licence">Labour Licence</option>
+                  <option value="GHMC Trade Licence">GHMC Trade Licence</option>
+                  <option value="Food Licence (FSSAI)">Food Licence (FSSAI)</option>
+                </optgroup>
+                
+                <optgroup label="Other Services">
+                  <option value="EPF Withdrawal">EPF Withdrawal</option>
+                  <option value="Digital Signature (DSC)">Digital Signature (DSC)</option>
+                  <option value="Payroll Outsourse">Payroll Outsourse</option>
+                  <option value="E-Commerce Consultation">E-Commerce Consultation</option>
+                  <option value="Rental Deed">Rental Deed</option>
+                  <option value="Partnership Deed">Partnership Deed</option>
+                  <option value="Agreements, Contracts etc">Agreements, Contracts etc.</option>
+                </optgroup>
 
-               <option value="others">Others (Specify)</option>
-          </select><br>
-         
-      
-        <label for="assign">Assign:</label>
-        <input type="text" id="assign" name="assign" required>
-        <label for="status">Status:</label>
-         <select id="status" name="status" required onchange="updateRequiredDocs()">
-         <option value="URGENT">URGENT</option>
-        <option value="DOCS">DOCS</option>
-        <option value="RATING">RATING</option>
-        <option value="DONE">DONE</option>
-        <option value="REMIND">REMIND</option>
-        <option value="DONE">DONE</option>
-        <option value="BAL">BAL</option>
-        <option value="WAIT">WAIT</option>
-        <option value="CALL">CALL</option>
-        <option value="NEW">NEW</option>
-        <option value="FEEDBACK">FEEDBACK</option>
-        <option value="NEXT YEAR">NEXT YEAR</option>
+                <option value="others">Others (Specify)</option>
+            </select>
+        </div>
         
-         </select>
+        <div class="form-group">
+            <label for="assign">Assigned To:</label>
+            <select id="assign" name="assign" required>
+                <option value="NIKHIL">NIKHIL</option>
+                <option value="ABHIGNA">ABHIGNA</option>
+                <option value="RAJU">RAJU</option>
+                <option value="SUNNY">SUNNY</option>
+                <option value="ALEKHYA">ALEKHYA</option>
+                <option value="SUNNY">SUNNY</option>
+                <option value="ABHILASH">ABHILASH</option>
+             
+            </select>
+
+        </div>
         
-         <option value="New Company Registration">New Company Registration (Pvt, Ltd, OPC etc)</option>
-         <option value="New Company Registration">New Company Registration (Pvt, Ltd, OPC etc)</option>
-        <label for="remark">Remark:</label>
-        <input type="text" id="remark" name="remark" required>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <label for="charges">Charges:</label>
-        <input type="text" id="charges" name="charges" required>
-        <label for="dueDate">Due Date/Other remark :</label>
-        <input type="text" id="dueDate" name="dueDate" required>
-        <button type="button" onclick="submitForm()">Submit</button>
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select id="status" name="status" required>
+                <option value="URGENT">URGENT</option>
+                <option value="PENDING">PENDING</option>
+                <option value="DOCS">DOCS</option>
+                <option value="NEW">NEW</option>
+                <option value="DONE">DONE</option>
+                <option value="REMIND">REMIND</option>
+                <option value="CALL">CALL</option>
+                <option value="BAL">BAL</option>
+                <option value="RATING">RATING</option>
+                <option value="FEEDBACK">FEEDBACK</option>
+                <option value="NEXT YEAR">NEXT YEAR</option>
+                <option value="LABOUR REMINDER">LABOUR REMINDER</option>
+                <option value="ITR REMINDER">ITR REMINDER</option>
+                <option value="GST RETURN">GST RETURN</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="remark">Remarks:</label>
+            <input type="text" id="remark" name="remark">
+        </div>
+        
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username">
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" class="password-field">
+        </div>
+        
+        <div class="form-group">
+            <label for="charges">Charges (₹):</label>
+            <input type="text" id="charges" name="charges">
+        </div>
+        
+        <div class="form-group">
+            <label for="dueDate">Due Date:</label>
+            <input type="date" id="dueDate" name="dueDate">
+        </div>
+        
+        <input type="hidden" id="editId">
+        <button type="button" onclick="submitForm()">Submit Data</button>
     </form>
 
-    <h2>Submitted Data</h2>
-    <table border="1" id="dataTable">
-        <thead>
-            <tr>
-                <th style="max-width: 60px;">ID</th>
-                <th style="max-width: 6000px;">Name</th>
-                <th style="max-width: 6000px;">Mobile</th>
-                <th>Email</th>
-                <th>Work</th>
-                <th>Assign</th>
-                <th>Status</th>
-                <th>Remark</th>
-                <th style="max-width: 6000px;">Username</th>
-                <th style="max-width: 6000px;">Password</th>
-                <th>Charges</th>
-                <th>Due Date</th>
-                <th style="max-width: 6000px;">Actions</th>
-                <th>Folder</th>
-                <th>WhatsApp</th>
-                <th>Assignee WhatsApp</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Table rows will be dynamically inserted here -->
-        </tbody>
-    </table>
+    <h2>Client Records</h2>
+    
+    <div class="table-container">
+        <table border="1" id="dataTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Service</th>
+                    <th>Assigned To</th>
+                    <th>Status</th>
+                    <th>Remarks</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Charges</th>
+                    <th>Due Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Table rows will be inserted here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    
+    <div id="mobileCardsContainer" class="mobile-cards">
+        <!-- Mobile cards will be inserted here by JavaScript -->
+    </div>
 
     <script>
         let editMode = false;
         let editId = null;
-        let currentFilter = null; // Track the current filter
-
+        let currentFilter = null;
+        
         const assigneeMobileNumbers = {
             "NIKHIL": "+917989395723",
             "RAJU": "+919248410298",
-            "ABHIGNA": "+919182338327",
-            // Add more assignees and their mobile numbers here
+            "ABHIGNA": "+919182338327"
         };
 
         function filterData(status) {
-            currentFilter = status; // Set the current filter
-            fetchData(); // Fetch and display filtered data
+            currentFilter = status;
+            fetchData();
+            // Highlight the active filter button
+            document.querySelectorAll('.filter-button').forEach(btn => {
+                btn.style.fontWeight = btn.textContent.includes(status) ? 'bold' : 'normal';
+            });
+        }
+
+        function clearFilter() {
+            currentFilter = null;
+            fetchData();
+            // Reset all filter buttons
+            document.querySelectorAll('.filter-button').forEach(btn => {
+                btn.style.fontWeight = 'normal';
+            });
         }
 
         function submitForm() {
@@ -461,7 +568,15 @@
                 dueDate: document.getElementById("dueDate").value
             };
 
-            fetch('https://script.google.com/macros/s/AKfycbyzVrkiJlT9V2Vpw7hCrc8W9ILX73x1BiY2zhZgu8RvG-dyLNuW1vpqiHzZjNN43agvvw/exec', {
+            // Basic validation
+            if (!formData.name || !formData.mobile || !formData.work) {
+                alert("Please fill in all required fields");
+                return;
+            }
+
+            const endpoint = 'https://script.google.com/macros/s/AKfycbyzVrkiJlT9V2Vpw7hCrc8W9ILX73x1BiY2zhZgu8RvG-dyLNuW1vpqiHzZjNN43agvvw/exec';
+            
+            fetch(endpoint, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: {
@@ -469,103 +584,201 @@
                 },
                 body: JSON.stringify(formData)
             }).then(() => {
-                alert(editMode ? "Data updated successfully!" : "Data submitted successfully!");
+                alert(editMode ? "Data updated successfully!" : "New client added!");
                 document.getElementById("dataForm").reset();
                 editMode = false;
                 editId = null;
                 fetchData();
-            }).catch(error => console.error("Error:", error));
+            }).catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+            });
         }
 
         function fetchData() {
-            fetch('https://script.google.com/macros/s/AKfycbyzVrkiJlT9V2Vpw7hCrc8W9ILX73x1BiY2zhZgu8RvG-dyLNuW1vpqiHzZjNN43agvvw/exec')
-                .then(response => response.json())
+            const loadingMessage = document.createElement('div');
+            loadingMessage.className = 'text-center mt-20';
+            loadingMessage.textContent = 'Loading data...';
+            document.getElementById("tableBody").innerHTML = '';
+            document.getElementById("tableBody").appendChild(loadingMessage);
+            document.getElementById("mobileCardsContainer").innerHTML = '';
+            document.getElementById("mobileCardsContainer").appendChild(loadingMessage.cloneNode(true));
+
+            const endpoint = 'https://script.google.com/macros/s/AKfycbyzVrkiJlT9V2Vpw7hCrc8W9ILX73x1BiY2zhZgu8RvG-dyLNuW1vpqiHzZjNN43agvvw/exec';
+            
+            fetch(endpoint)
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json();
+                })
                 .then(data => {
-                    // Apply the filter if one is set
+                    // Apply filter if set
                     if (currentFilter) {
                         data = data.filter(row => row.status === currentFilter);
                     }
 
-                    const tableBody = document.querySelector("#dataTable tbody");
-                    tableBody.innerHTML = ""; // Clear existing rows
-
-                    data.forEach((row) => {
-                        const newRow = tableBody.insertRow();
-                        newRow.insertCell(0).innerText = row.id;
-                        newRow.insertCell(1).innerText = row.name;
-                        newRow.insertCell(2).innerText = row.mobile;
-                        newRow.insertCell(3).innerText = row.email;
-                        newRow.insertCell(4).innerText = row.work;
-                        newRow.insertCell(5).innerText = row.assign;
-                        newRow.insertCell(6).innerText = row.status;
-                        newRow.insertCell(7).innerText = row.remark;
-                        newRow.insertCell(8).innerText = row.username;
-                        newRow.insertCell(9).innerText = row.password;
-                        newRow.insertCell(10).innerText = row.charges;
-                        newRow.insertCell(11).innerText = row.dueDate;
-                        const actionCell = newRow.insertCell(12);
-
-                        // Edit Button
-                        const editButton = document.createElement("button");
-                        editButton.innerText = "Edit";
-                        editButton.classList.add("edit");
-                        editButton.onclick = function() { editRow(row); };
-                        actionCell.appendChild(editButton);
-
-                        // Delete Button
-                        const deleteButton = document.createElement("button");
-                        deleteButton.innerText = "Delete";
-                        deleteButton.classList.add("delete");
-                        deleteButton.onclick = function() { deleteRow(row.id); };
-                        actionCell.appendChild(deleteButton);
-
-                        // Open Folder Button
-                        const folderCell = newRow.insertCell(13);
-                        if (row.folderId) {
-                            const openFolderButton = document.createElement("button");
-                            openFolderButton.innerText = "Open Folder";
-                            openFolderButton.classList.add("open-folder");
-                            openFolderButton.onclick = function() { openFolder(row.folderId); };
-                            folderCell.appendChild(openFolderButton);
-                        } else {
-                            folderCell.innerText = "No Folder";
-                        }
-
-                        // WhatsApp Button
-                        const whatsappCell = newRow.insertCell(14);
-                        const whatsappButton = document.createElement("button");
-                        whatsappButton.innerText = "WhatsApp";
-                        whatsappButton.classList.add("whatsapp");
-                        whatsappButton.onclick = function() { sendWhatsAppMessage(row); };
-                        whatsappCell.appendChild(whatsappButton);
-
-                        // Assignee WhatsApp Button
-                        const assigneeWhatsappCell = newRow.insertCell(15);
-                        const assigneeWhatsappButton = document.createElement("button");
-                        assigneeWhatsappButton.innerText = "WhatsApp Assignee";
-                        assigneeWhatsappButton.classList.add("whatsapp-assignee");
-                        assigneeWhatsappButton.onclick = function() { sendAssigneeWhatsAppMessage(row); };
-                        assigneeWhatsappCell.appendChild(assigneeWhatsappButton);
-                    });
+                    renderTable(data);
+                    renderMobileCards(data);
                 })
-                .catch(error => console.error("Error fetching data:", error));
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'text-center mt-20';
+                    errorMessage.textContent = 'Failed to load data. Please refresh the page.';
+                    errorMessage.style.color = 'red';
+                    document.getElementById("tableBody").innerHTML = '';
+                    document.getElementById("tableBody").appendChild(errorMessage);
+                    document.getElementById("mobileCardsContainer").innerHTML = '';
+                    document.getElementById("mobileCardsContainer").appendChild(errorMessage.cloneNode(true));
+                });
+        }
+
+        function renderTable(data) {
+            const tableBody = document.querySelector("#tableBody");
+            tableBody.innerHTML = "";
+
+            if (data.length === 0) {
+                const row = tableBody.insertRow();
+                const cell = row.insertCell(0);
+                cell.colSpan = 13;
+                cell.className = 'text-center';
+                cell.textContent = 'No records found';
+                return;
+            }
+
+            data.forEach((row) => {
+                const newRow = tableBody.insertRow();
+                newRow.insertCell(0).innerText = row.id || '-';
+                newRow.insertCell(1).innerText = row.name || '-';
+                newRow.insertCell(2).innerText = row.mobile || '-';
+                newRow.insertCell(3).innerText = row.email || '-';
+                newRow.insertCell(4).innerText = row.work || '-';
+                newRow.insertCell(5).innerText = row.assign || '-';
+                
+                const statusCell = newRow.insertCell(6);
+                statusCell.innerText = row.status || '-';
+                statusCell.className = `status-${row.status}`;
+                
+                newRow.insertCell(7).innerText = row.remark || '-';
+                newRow.insertCell(8).innerText = row.username || '-';
+                
+                const passwordCell = newRow.insertCell(9);
+                passwordCell.innerText = row.password || '-';
+                passwordCell.className = 'password-field';
+                
+                newRow.insertCell(10).innerText = row.charges || '-';
+                newRow.insertCell(11).innerText = row.dueDate || '-';
+                
+                const actionCell = newRow.insertCell(12);
+                actionCell.innerHTML = `
+                    <div class="action-buttons">
+                        <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
+                        <button class="delete" onclick="deleteRow('${row.id}')">Delete</button>
+                        ${row.folderId ? `<button class="open-folder" onclick="openFolder('${row.folderId}')">Folder</button>` : ''}
+                        <button class="whatsapp" onclick="sendWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">WhatsApp</button>
+                        ${row.assign ? `<button class="whatsapp-assignee" onclick="sendAssigneeWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">Notify ${row.assign}</button>` : ''}
+                    </div>
+                `;
+            });
+        }
+
+        function renderMobileCards(data) {
+            const mobileContainer = document.querySelector("#mobileCardsContainer");
+            mobileContainer.innerHTML = "";
+
+            if (data.length === 0) {
+                const message = document.createElement('div');
+                message.className = 'text-center';
+                message.textContent = 'No records found';
+                mobileContainer.appendChild(message);
+                return;
+            }
+
+            data.forEach((row) => {
+                const card = document.createElement('div');
+                card.className = 'mobile-card';
+                card.innerHTML = `
+                    <div class="status-indicator status-${row.status}"></div>
+                    <div class="card-row">
+                        <span class="card-label">ID:</span>
+                        <span class="card-value">${row.id || '-'}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Name:</span>
+                        <span class="card-value">${row.name || '-'}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Mobile:</span>
+                        <span class="card-value">${row.mobile || '-'}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Email:</span>
+                        <span class="card-value">${row.email || '-'}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Service:</span>
+                        <span class="card-value">${row.work || '-'}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Assigned To:</span>
+                        <span class="card-value">${row.assign || '-'}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Status:</span>
+                        <span class="card-value status-${row.status}">${row.status || '-'}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Remarks:</span>
+                        <span class="card-value">${row.remark || '-'}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Username:</span>
+                        <span class="card-value">${row.username || '-'}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Password:</span>
+                        <span class="card-value password-field">${row.password || '-'}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Charges:</span>
+                        <span class="card-value">${row.charges || '-'}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Due Date:</span>
+                        <span class="card-value">${row.dueDate || '-'}</span>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="edit" onclick="editRow(${JSON.stringify(row).replace(/"/g, '&quot;')})">Edit</button>
+                        <button class="delete" onclick="deleteRow('${row.id}')">Delete</button>
+                        ${row.folderId ? `<button class="open-folder" onclick="openFolder('${row.folderId}')">Folder</button>` : ''}
+                        <button class="whatsapp" onclick="sendWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">WhatsApp</button>
+                        ${row.assign ? `<button class="whatsapp-assignee" onclick="sendAssigneeWhatsAppMessage(${JSON.stringify(row).replace(/"/g, '&quot;')})">Notify ${row.assign}</button>` : ''}
+                    </div>
+                `;
+                mobileContainer.appendChild(card);
+            });
         }
 
         function editRow(row) {
             document.getElementById("editId").value = row.id;
-            document.getElementById("name").value = row.name;
-            document.getElementById("mobile").value = row.mobile;
-            document.getElementById("email").value = row.email;
-            document.getElementById("work").value = row.work;
-            document.getElementById("assign").value = row.assign;
-            document.getElementById("status").value = row.status;
-            document.getElementById("remark").value = row.remark;
-            document.getElementById("username").value = row.username;
-            document.getElementById("password").value = row.password;
-            document.getElementById("charges").value = row.charges;
-            document.getElementById("dueDate").value = row.dueDate;
+            document.getElementById("name").value = row.name || '';
+            document.getElementById("mobile").value = row.mobile || '';
+            document.getElementById("email").value = row.email || '';
+            document.getElementById("work").value = row.work || '';
+            document.getElementById("assign").value = row.assign || '';
+            document.getElementById("status").value = row.status || 'NEW';
+            document.getElementById("remark").value = row.remark || '';
+            document.getElementById("username").value = row.username || '';
+            document.getElementById("password").value = row.password || '';
+            document.getElementById("charges").value = row.charges || '';
+            document.getElementById("dueDate").value = row.dueDate || '';
+            
             editMode = true;
             editId = row.id;
+            
+            // Scroll to form and change button text
+            document.getElementById("dataForm").scrollIntoView({ behavior: 'smooth' });
+            document.querySelector("#dataForm button").textContent = "Update Record";
         }
 
         function deleteRow(id) {
@@ -580,62 +793,87 @@
                 }).then(() => {
                     alert("Record deleted successfully!");
                     fetchData();
-                }).catch(error => console.error("Error:", error));
+                }).catch(error => {
+                    console.error("Error:", error);
+                    alert("Failed to delete record. Please try again.");
+                });
             }
         }
 
-        function openFolder(folderId) {
-            const folderUrl = `https://drive.google.com/drive/folders/${folderId}`;
-            window.open(folderUrl, "_blank");
-        }
-function sendWhatsAppMessage(row) {
-    const mobile = row.mobile.replace(/\D/g, ''); // Remove all non-numeric characters
-    let internationalMobile;
-    if (mobile.startsWith('+')) {
-        internationalMobile = mobile;
-    } else if (mobile.startsWith('91') && mobile.length === 12) {
-        internationalMobile = `+${mobile}`;
-    } else if (mobile.length === 10) {
-        internationalMobile = `+91${mobile}`;
-    } else {
-        internationalMobile = mobile;
-    }
-
-    let message;
-    if (row.work.toUpperCase() === "DOCS") {
-        message = `Hello ${row.name}, your work on ${row.work} is currently ${row.status}. Due date: ${row.dueDate}. Please send me the documents.`;
-    } else {
-        message = `Hello ${row.name}, your work on ${row.work} is currently ${row.status}. Due date: ${row.dueDate}.`;
-    }
-
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${internationalMobile}?text=${encodedMessage}`;
-    window.open(whatsappUrl, "_blank");
-}
-   
-
-        function sendAssigneeWhatsAppMessage(row) {
-            const assigneeName = row.assign; // Get the assignee name from the row
-            const assigneeMobile = assigneeMobileNumbers[assigneeName]; // Fetch the mobile number from the list
-
-            if (!assigneeMobile) {
-                alert(`Assignee mobile number not found for ${assigneeName}`);
+        function sendWhatsAppMessage(row) {
+            const mobile = row.mobile.replace(/\D/g, '');
+            let internationalMobile;
+            
+            if (mobile.startsWith('+')) {
+                internationalMobile = mobile;
+            } else if (mobile.startsWith('91') && mobile.length === 12) {
+                internationalMobile = `+${mobile}`;
+            } else if (mobile.length === 10) {
+                internationalMobile = `+91${mobile}`;
+            } else {
+                alert("Invalid mobile number format");
                 return;
             }
 
-            // Construct the message
-            const message = `Hello ${assigneeName}, you have been assigned to work on ${row.work} for ${row.name}. Status: ${row.status}, Username: ${row.username}, Password: ${row.password}, Mobile : ${row.mobile}  .`;
+            let message = `Hello ${row.name || 'there'},\n\n`;
+            message += `Regarding your ${row.work || 'service'} with us:\n`;
+            message += `- Status: ${row.status || 'In Progress'}\n`;
+            message += `- Due Date: ${row.dueDate || 'Not specified'}\n\n`;
+            
+            if (row.status === 'DOCS') {
+                message += `Please share the required documents at your earliest convenience.\n\n`;
+            }
+            
+            message += `Thank you,\nCoreTax Team`;
+
             const encodedMessage = encodeURIComponent(message);
-
-            // Generate the WhatsApp URL
-            const whatsappUrl = `https://wa.me/${assigneeMobile}?text=${encodedMessage}`;
-            console.log("Generated WhatsApp URL:", whatsappUrl); // Debugging
-
-            // Open the WhatsApp link
+            const whatsappUrl = `https://wa.me/${internationalMobile}?text=${encodedMessage}`;
             window.open(whatsappUrl, "_blank");
         }
 
-        window.onload = fetchData;
+        function sendAssigneeWhatsAppMessage(row) {
+            if (!row.assign) {
+                alert("No assignee specified for this task");
+                return;
+            }
+
+            const assigneeMobile = assigneeMobileNumbers[row.assign.toUpperCase()];
+            if (!assigneeMobile) {
+                alert(`Mobile number not found for ${row.assign}`);
+                return;
+            }
+
+            const message = `*Task Update*:\n\n` +
+                          `Client: ${row.name || 'N/A'}\n` +
+                          `Mobile: ${row.mobile || 'N/A'}\n` +
+                          `Service: ${row.work || 'N/A'}\n` +
+                          `Status: ${row.status || 'N/A'}\n` +
+                          `Due Date: ${row.dueDate || 'N/A'}\n` +
+                          `Remarks: ${row.remark || 'None'}\n\n` +
+                          `Please update on progress.`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${assigneeMobile}?text=${encodedMessage}`;
+            window.open(whatsappUrl, "_blank");
+        }
+
+        function openFolder(folderId) {
+            if (!folderId) {
+                alert("No folder associated with this record");
+                return;
+            }
+            const folderUrl = `https://drive.google.com/drive/folders/${folderId}`;
+            window.open(folderUrl, "_blank");
+        }
+
+        // Initialize on page load
+        window.onload = function() {
+            fetchData();
+            
+            // Set today's date as default for due date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById("dueDate").value = today;
+        };
     </script>
 </body>
 </html>
