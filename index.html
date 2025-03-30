@@ -50,8 +50,16 @@
             font-size: 16px;
         }
 
-        .form-group {
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
             margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 200px;
         }
 
         label {
@@ -267,7 +275,7 @@
             }
             
             .form-group {
-                margin-bottom: 12px;
+                min-width: 100%;
             }
             
             .mobile-card .card-label {
@@ -327,169 +335,101 @@
             <a href="#" class="filter-button" onclick="clearFilter(); return false;">ALL</a>
         </div>
         
-        <div class="form-group">
-            <label for="name">Client Name:</label>
-            <input type="text" id="name" name="name" required>
+        <!-- First Row -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="name">Client Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="mobile">Mobile Number:</label>
+                <input type="tel" id="mobile" name="mobile" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="work">Service Required:</label>
+                <select id="work" name="work" required>
+                    <option value="">-- Select a Service --</option>
+                    <optgroup label="PAN Services">
+                      <option value="Apply for New PAN">New PAN (Individual/Firm/Company)</option>
+                      <option value="Apply for PAN Correction">PAN Correction</option>
+                      <option value="Apply for PAN Reprint">PAN Reprint</option>
+                    </optgroup>
+                    <optgroup label="GST Services">
+                      <option value="New GST Registration">New GST Registration</option>
+                      <option value="GST Return Filing">GST Return Filing</option>
+                      <option value="Cancellation of GST">GST Cancellation</option>
+                    </optgroup>
+                    <optgroup label="Income Tax Services">
+                      <option value="ITR Filing (3 Years)">ITR Filing (3 Years)</option>
+                      <option value="Income Tax Notice">Income Tax Notice</option>
+                      <option value="TDS/TCS Filing">TDS/TCS Filing</option>
+                    </optgroup>
+                    <option value="others">Other Services</option>
+                </select>
+            </div>
         </div>
         
-        <div class="form-group">
-            <label for="mobile">Mobile Number:</label>
-            <input type="tel" id="mobile" name="mobile" required>
+        <!-- Second Row -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="assign">Assigned To:</label>
+                <input type="text" id="assign" name="assign" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <select id="status" name="status" required>
+                    <option value="URGENT">URGENT</option>
+                    <option value="PENDING">PENDING</option>
+                    <option value="DOCS">DOCS</option>
+                    <option value="NEW">NEW</option>
+                    <option value="DONE">DONE</option>
+                    <option value="REMIND">REMIND</option>
+                    <option value="CALL">CALL</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="remark">Remarks:</label>
+                <input type="text" id="remark" name="remark">
+            </div>
+            
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username">
+            </div>
         </div>
         
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+        <!-- Third Row -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" class="password-field">
+            </div>
+            
+            <div class="form-group">
+                <label for="charges">Charges (₹):</label>
+                <input type="text" id="charges" name="charges">
+            </div>
+            
+            <div class="form-group">
+                <label for="dueDate">Due Date:</label>
+                <input type="date" id="dueDate" name="dueDate">
+            </div>
+            
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <input type="hidden" id="editId">
+                <button type="button" onclick="submitForm()">Submit Data</button>
+            </div>
         </div>
-        
-        <div class="form-group">
-            <label for="work">Service Required:</label>
-            <select id="work" name="work" required>
-                <option value="">-- Select a Service --</option>
-                
-                <optgroup label="PAN Services">
-                  <option value="Apply for New PAN">Apply for New PAN (Individual, Firm, Company etc.)</option>
-                  <option value="Apply for PAN Correction">Apply for PAN Correction (Individual, Firm, Company etc.)</option>
-                  <option value="Apply for PAN Reprint">Apply for PAN Reprint</option>
-                  <option value="Apply for PAN - PAN allotted already">Apply for PAN - PAN allotted already (PAN Number lost)</option>
-                  <option value="Duplicate PAN Cancellation">Duplicate PAN Cancellation</option>
-                </optgroup>
-                
-                <optgroup label="Aadhar Services">
-                  <option value="Aadhar PAN Link">Aadhar PAN Link</option>
-                  <option value="Aadhar Father name Correction">Aadhar Father name Correction</option>
-                  <option value="Aadhar Address Correction">Aadhar Address Correction</option>
-                </optgroup>
-                
-                <optgroup label="GST Services">
-                  <option value="New GST Registration">New GST Registration</option>
-                  <option value="GST Return Filing">GST Return Filing</option>
-                  <option value="GST Consultation">GST Consultation</option>
-                  <option value="Cancellation of GST">Cancellation of GST</option>
-                  <option value="GST Notice">GST Notice</option>
-                  <option value="Composition Scheme">Composition Scheme</option>
-                  <option value="Gst Refund">Gst Refund</option>
-                  <option value="E-way Bill">E-way Bill</option>
-                  <option value="Casual Taxable Person - GST">Casual Taxable Person - GST</option>
-                </optgroup>
-                
-                <optgroup label="Financial Services">
-                  <option value="Turnover Certificate">Turnover Certificate</option>
-                  <option value="Networth Certificate">Networth Certificate</option>
-                  <option value="Accounting">Accounting</option>
-                  <option value="CA Report">CA Report</option>
-                  <option value="Finanacial Statements">Financial Statements</option>
-                  <option value="UDIN Certification Services">UDIN Certification Services</option>
-                </optgroup>
-                
-                <optgroup label="Income Tax Services">
-                  <option value="ITR Filing (3 Years)">ITR Filing (3 Years)</option>
-                  <option value="Form 26AS (Form 16)">Form 26AS (Form 16)</option>
-                  <option value="Income Tax Notice">Income Tax Notice</option>
-                  <option value="Income Tax Refund">Income Tax Refund</option>
-                  <option value="TDS/TCS Filing">TDS/TCS Filing</option>
-                  <option value="Capital Gains">Capital Gains (Shares, Options, Mutual Funds)</option>
-                  <option value="Tax Planning">Tax Planning</option>
-                  <option value="Tax Audit">Tax Audit</option>
-                </optgroup>
-                
-                <optgroup label="Company Registration">
-                  <option value="New Company Registration">New Company Registration (Pvt, Ltd, OPC etc)</option>
-                  <option value="MCA Filings">MCA Filings</option>
-                  <option value="ROC Comliances">ROC Comliances</option>
-                  <option value="LLP Registration">LLP Registration</option>
-                  <option value="Firm Registration">Firm Registration</option>
-                  <option value="DIN-Director Services">DIN-Director Services</option>
-                  <option value="Startup Registration">Startup Registration</option>
-                </optgroup>
-                
-                <optgroup label="Licenses & Registrations">
-                  <option value="EPF | ESI Registration">EPF | ESI Registration</option>
-                  <option value="MSME (Udyam Registration)">MSME (Udyam Registration)</option>
-                  <option value="Trademark Registration">Trademark Registration</option>
-                  <option value="HUF Registration">HUF Registration</option>
-                  <option value="Professional Tax Registration">Professional Tax Registration (payments & Return)</option>
-                  <option value="Labour Licence">Labour Licence</option>
-                  <option value="GHMC Trade Licence">GHMC Trade Licence</option>
-                  <option value="Food Licence (FSSAI)">Food Licence (FSSAI)</option>
-                </optgroup>
-                
-                <optgroup label="Other Services">
-                  <option value="EPF Withdrawal">EPF Withdrawal</option>
-                  <option value="Digital Signature (DSC)">Digital Signature (DSC)</option>
-                  <option value="Payroll Outsourse">Payroll Outsourse</option>
-                  <option value="E-Commerce Consultation">E-Commerce Consultation</option>
-                  <option value="Rental Deed">Rental Deed</option>
-                  <option value="Partnership Deed">Partnership Deed</option>
-                  <option value="Agreements, Contracts etc">Agreements, Contracts etc.</option>
-                </optgroup>
-
-                <option value="others">Others (Specify)</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="assign">Assigned To:</label>
-            <select id="assign" name="assign" required>
-                <option value="NIKHIL">NIKHIL</option>
-                <option value="ABHIGNA">ABHIGNA</option>
-                <option value="RAJU">RAJU</option>
-                <option value="SUNNY">SUNNY</option>
-                <option value="ALEKHYA">ALEKHYA</option>
-                <option value="SUNNY">SUNNY</option>
-                <option value="ABHILASH">ABHILASH</option>
-             
-            </select>
-
-        </div>
-        
-        <div class="form-group">
-            <label for="status">Status:</label>
-            <select id="status" name="status" required>
-                <option value="URGENT">URGENT</option>
-                <option value="PENDING">PENDING</option>
-                <option value="DOCS">DOCS</option>
-                <option value="NEW">NEW</option>
-                <option value="DONE">DONE</option>
-                <option value="REMIND">REMIND</option>
-                <option value="CALL">CALL</option>
-                <option value="BAL">BAL</option>
-                <option value="RATING">RATING</option>
-                <option value="FEEDBACK">FEEDBACK</option>
-                <option value="NEXT YEAR">NEXT YEAR</option>
-                <option value="LABOUR REMINDER">LABOUR REMINDER</option>
-                <option value="ITR REMINDER">ITR REMINDER</option>
-                <option value="GST RETURN">GST RETURN</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="remark">Remarks:</label>
-            <input type="text" id="remark" name="remark">
-        </div>
-        
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username">
-        </div>
-        
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" class="password-field">
-        </div>
-        
-        <div class="form-group">
-            <label for="charges">Charges (₹):</label>
-            <input type="text" id="charges" name="charges">
-        </div>
-        
-        <div class="form-group">
-            <label for="dueDate">Due Date:</label>
-            <input type="date" id="dueDate" name="dueDate">
-        </div>
-        
-        <input type="hidden" id="editId">
-        <button type="button" onclick="submitForm()">Submit Data</button>
     </form>
 
     <h2>Client Records</h2>
