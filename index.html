@@ -840,13 +840,13 @@
             let message = `Hello ${row.name || 'there'},\n\n`;
             message += `Regarding your ${row.work || 'service'} with us:\n`;
             message += `- Status Pending at: ${row.status || 'In Progress'}\n`;
-            message += `- Due Date: ${row.dueDate || ''}\n\n`;
+            message += `- Charges: ${row.charges || ''}\n\n`;
             
             if (row.status === 'DOCS') {
                 message += `Please share the required documents at your earliest convenience.\n\n`;
             }
             if (row.status === 'RATING') {
-                message += `Please Give us rating.\n\nWhich will be most helpful.\n\n https://www.justdial.com/Rangareddy/Sahithi-Tax-Consultancy-Near-Gram-Panchayat-Hayath-Nagar/040PXX40-XX40-240128082904-G1Z7_BZDET/writereview?city=Rangareddy\n\n`;
+                message += `Your work has been complted successfully and charges are ${row.charges}.\n\nPlease Give us rating.\n\nWhich will be most helpful.\n\n https://www.justdial.com/Rangareddy/Sahithi-Tax-Consultancy-Near-Gram-Panchayat-Hayath-Nagar/040PXX40-XX40-240128082904-G1Z7_BZDET/writereview?city=Rangareddy\n\n`;
             }
             
             
